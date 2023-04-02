@@ -12,12 +12,22 @@
   },
   "tauri": {
     "allowlist": {
-      "all": false,
       "shell": {
         "all": true,
         "execute": true,
         "sidecar": true,
-        "open": true
+        "open": true,
+        "scope": [
+          {
+            "name": "sh",
+            "cmd": "sh",
+            "args": ["-c", { "validator": "\\S+" }]
+          }
+        ]
+      },
+      "fs": {
+        "all": true,
+        "scope": ["$APPDATA", "$APPCONFIG"]
       }
     },
     "bundle": {
