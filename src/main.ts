@@ -1,25 +1,41 @@
 //import { invoke } from "@tauri-apps/api/tauri";
 import { Child, Command } from '@tauri-apps/api/shell'
-import * as fs from 'fs'
-import { BaseDirectory, exists, writeTextFile } from  '@tauri-apps/api/fs'
+import { BaseDirectory, exists, readTextFile, writeTextFile } from  '@tauri-apps/api/fs'
 import { appDataDir } from "@tauri-apps/api/path";
 
-let process: Child;
-let appDataDirPath: String;
+let sh: Child;
+let terminalElement: HTMLElement;
 
 const command = new Command("sh")
 
+async function readTextFileFromAppData(path: string): Promise<String> {
+  return readTextFile(path, {dir: BaseDirectory.AppData})
+}
+
+function shwrite(line: string){
+  sh.write(line + "\n")
+  console.log("Wrote to shell: " + line)
+}
+
+function writeLineToTerminal(line: string){
+  let htmlLine = document.createElement("nu-block")
+  htmlLine.append(document.createTextNode(line))
+  terminalElement.appendChild(htmlLine)
+}
+
 window.addEventListener("DOMContentLoaded", async () => {
 
-  process = await command.spawn()
+  terminalElement = document.getElementById('cmd')!
+  sh = await command.spawn()
   command.stdout.on('data', function(line){
-    console.log(line);
+    writeLineToTerminal(line)
   })
-
-  appDataDirPath = await appDataDir()
-  console.log(appDataDirPath)
   
+  shwrite("ls")
+
   if(!await exists("logins.json", { dir: BaseDirectory.AppData })){
-    writeTextFile('logins.json', fs.readFileAsync('/assets/blank.json'), {dir: BaseDirectory.AppData})
+    shwrite("cp assets/blank.json " + await appDataDir() + "config.json")
   }
+
+  
 });

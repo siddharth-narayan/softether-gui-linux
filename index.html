@@ -1,33 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="stylesheet" href="/src/styles.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SoftEther GUI</title>
-    <script type="module" src="/src/main.ts" defer></script>
-    <script
-      type="module"
-      src="https://cdn.jsdelivr.net/npm/numl@1.1.2/dist/index.js"
-    ></script>
-    <style>
-      *:not(:defined) {
-        visibility: hidden;
-      }
-    </style>
-  </head>
 
-  <body>
-    <nu-theme hue="260" saturation="100" mod="soft"></nu-theme>
-    <div id="container">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="/src/styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SoftEther GUI</title>
+  <script type="module" src="/src/main.ts" defer></script>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/numl@1.1.2/dist/index.js"></script>
+  <style>
+    *:not(:defined) {
+      visibility: hidden;
+    }
+  </style>
+</head>
+
+<body>
+  <nu-theme hue="260" saturation="100" mod="soft"></nu-theme>
+  <div id="container">
+    <div id="content">
       <div id="auth">
         <div class="info-vert-block"></div>
         <div id="server-info">
-          <nu-input
-            placeholder="Server Adress"
-            class="server-info"
-            width="70%"
-          ></nu-input>
+          <nu-input placeholder="Server Adress" class="server-info" width="70%"></nu-input>
           <nu-numinput class="server-info" placeholder="Port" width="15%"></nu-numinput>
 
           <nu-btn width="15%" columns="1fr auto" value="one" class="server-info">
@@ -42,11 +37,12 @@
         </div>
 
         <nu-input placeholder="Username" class="info-vert-block"></nu-input>
-        <nu-password
-          placeholder="Password"
-          class="info-vert-block"
-        ></nu-password>
+        <nu-password placeholder="Password" class="info-vert-block"></nu-password>
       </div>
+      <nu-card clear="" id="cmd">
+      </nu-card>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>
