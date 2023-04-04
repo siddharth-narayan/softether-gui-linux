@@ -1,30 +1,25 @@
-import { invoke } from "@tauri-apps/api/tauri";
+//import { invoke } from "@tauri-apps/api/tauri";
 import { Child, Command } from '@tauri-apps/api/shell'
-import {  } from  '@tauri-apps/api/path'
-import { BaseDirectory } from "@tauri-apps/api/path";
+import * as fs from 'fs'
+import { BaseDirectory, exists, writeTextFile } from  '@tauri-apps/api/fs'
+import { appDataDir } from "@tauri-apps/api/path";
 
-let greetInputEl: HTMLInputElement | null;
-let greetMsgEl: HTMLElement | null;
-let process: Child
+let process: Child;
+let appDataDirPath: String;
 
 const command = new Command("sh")
 
-async function greet() {
-  process.write(greetInputEl.value + "\n")
-}
-
 window.addEventListener("DOMContentLoaded", async () => {
-  greetInputEl = document.querySelector("#greet-input");
-  greetMsgEl = document.querySelector("#greet-msg");
-  
-  document
-    .querySelector("#greet-button")
-    ?.addEventListener("click", () => greet());
-  
-  
+
   process = await command.spawn()
   command.stdout.on('data', function(line){
-    greetMsgEl.textContent = line
     console.log(line);
   })
+
+  appDataDirPath = await appDataDir()
+  console.log(appDataDirPath)
+  
+  if(!await exists("logins.json", { dir: BaseDirectory.AppData })){
+    writeTextFile('logins.json', fs.readFileAsync('/assets/blank.json'), {dir: BaseDirectory.AppData})
+  }
 });

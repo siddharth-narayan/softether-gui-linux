@@ -27,7 +27,10 @@
       },
       "fs": {
         "all": true,
-        "scope": ["$APPDATA", "$APPCONFIG"]
+        "scope": ["$APPDATA/*", "$APPCONFIG"]
+      },
+      "path":{
+        "all": true
       }
     },
     "bundle": {
@@ -39,7 +42,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "com.novaphaze.softethergui",
       "targets": "all"
     },
     "security": {

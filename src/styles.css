@@ -1,0 +1,29 @@
+#container {
+    padding:3em;
+    display: flex;
+    justify-content: center;
+}
+
+#auth{
+    display: flex;
+    max-width: 40em;
+    justify-content: center;
+    flex-direction: column;
+    padding: 1em;
+}
+
+#server-info{
+    display: flex;
+    flex-direction: row;
+}
+
+.server-info{
+    margin-left: .5em;
+}
+
+.info-vert-block{
+    margin-top: .5em;
+}
+
+* > :first-child { margin-top: 0 !important; margin-left: 0 !important; }
+* > :last-child { margin-bottom: 0 !important; margin-right: 0 !important; }
