@@ -6,20 +6,28 @@
 }
 
 #content{
-    max-width: 40em;
+    max-width: 70em;
+
+    flex-direction: column;
 }
 
 #auth{
     display: flex;
-    
-    justify-content: center;
     flex-direction: column;
-    padding-bottom: 4em;
+    justify-content: center;
+    margin-bottom: 4em;
 }
 
 #server-info{
     display: flex;
     flex-direction: row;
+}
+
+#cmd {
+    overflow: scroll;
+    max-height: 70em;
+    min-height: 20em;
+    margin-bottom: 4em;
 }
 
 .server-info{
