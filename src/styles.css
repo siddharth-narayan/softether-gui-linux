@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .inp {
+    @apply p-1 cursor-pointer text-sm rounded-md bg-slate-800 hover:bg-slate-700 text-slate-400 border border-slate-700 hover:border-slate-600 font-sans text-center;
+  }
+}
+
+@layer components {
+  .marg {
+    @apply ml-4 mt-4;
+  }
+}
 /* #container {
     padding:3em;
     display: flex;
@@ -42,5 +53,11 @@
     margin-top: .5em;
 } */
 
-* > :first-child { margin-top: 0 !important; margin-left: 0 !important; }
-* > :last-child { margin-bottom: 0 !important; margin-right: 0 !important; }
+* > ::first-line {
+  margin-top: 0 !important;
+  margin-left: 0 !important;
+}
+* > :last-line {
+  margin-bottom: 0 !important;
+  margin-right: 0 !important;
+}
