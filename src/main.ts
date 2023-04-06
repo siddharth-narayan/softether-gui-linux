@@ -90,8 +90,6 @@ function intitialize(plat: Platform, arch: Arch, appDataDirPath: String){
 
 }
 
-
-
 window.addEventListener("DOMContentLoaded",  async () => {
 
   terminalElement = document.getElementById('cmd')!

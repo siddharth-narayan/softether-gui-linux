@@ -1,47 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 
 <head>
   <meta charset="UTF-8" />
   <link rel="stylesheet" href="/src/styles.css" />
+  <link href="/dist/output.css" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SoftEther GUI</title>
   <script type="module" src="/src/main.ts" defer></script>
-  <script type="module" src="https://cdn.jsdelivr.net/npm/numl@1.1.2/dist/index.js"></script>
-  <style>
-    *:not(:defined) {
-      visibility: hidden;
-    }
-  </style>
+  <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/numl@1.1.2/dist/index.js"></script> -->
+
 </head>
 
 <body>
-  <nu-theme hue="260" saturation="100" mod="soft"></nu-theme>
   <div id="container">
     <div id="content">
       <div id="auth">
         <div class="info-vert-block"></div>
         <div id="server-info">
-          <nu-input placeholder="Server Adress" class="server-info" width="70%"></nu-input>
-          <nu-numinput class="server-info" placeholder="Port" width="15%"></nu-numinput>
-
-          <nu-btn width="15%" columns="1fr auto" value="one" class="server-info">
-            <nu-value list></nu-value>
-            <nu-dropdownicon></nu-dropdownicon>
-            <nu-popuplistbox>
-              <nu-option value="one">One</nu-option>
-              <nu-option value="two">Two</nu-option>
-
-            </nu-popuplistbox>
-          </nu-btn>
+          <input placeholder="Server Adress" class="server-info"></input>
+          <input class="server-info" placeholder="Port"></input>
         </div>
 
-        <nu-input placeholder="Username" class="info-vert-block"></nu-input>
-        <nu-password placeholder="Password" class="info-vert-block"></nu-password>
+        <input placeholder="Username" class="info-vert-block"></input>
+        <input placeholder="Password" class="info-vert-block"></input>
       </div>
-      <nu-card id="cmd">
-      </nu-card>
-      <nu-btn toggle>Start</nu-button>
+
+      <textarea id="cmd"></textarea>
     </div>
   </div>
 </body>
