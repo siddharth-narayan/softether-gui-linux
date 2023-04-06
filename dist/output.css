@@ -516,44 +516,89 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
-#container {
-  padding:3em;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+.container {
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1536px;
+  }
+}
+
+.bg-slate-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(30 41 59 / var(--tw-bg-opacity));
+}
+
+.bg-slate-900 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(15 23 42 / var(--tw-bg-opacity));
+}
+
+/* #container {
+    padding:3em;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 #content{
-  max-width: 70em;
-  flex-direction: column;
+    max-width: 70em;
+
+    flex-direction: column;
 }
 
 #auth{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-bottom: 4em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 4em;
 }
 
 #server-info{
-  display: flex;
-  flex-direction: row;
+    display: flex;
+    flex-direction: row;
 }
 
 #cmd {
-  overflow: scroll;
-  max-height: 70em;
-  min-height: 20em;
-  margin-bottom: 4em;
+    overflow: scroll;
+    max-height: 70em;
+    min-height: 20em;
+    margin-bottom: 4em;
 }
 
 .server-info{
-  margin-left: .5em;
+    margin-left: .5em;
 }
 
 .info-vert-block{
-  margin-top: .5em;
-}
+    margin-top: .5em;
+} */
 
 * > :first-child {
   margin-top: 0 !important;
