@@ -4,15 +4,22 @@
 
 @layer components {
   .inp {
-    @apply p-1 cursor-pointer text-sm rounded-md bg-slate-800 hover:bg-slate-700 text-slate-400 border border-slate-700 hover:border-slate-600 font-sans text-center;
+    @apply transition-all p-2 focus:placeholder:text-transparent focus-visible:outline-none hover:border-slate-600 border-l-4 border-slate-800 cursor-pointer text-sm bg-slate-800 hover:bg-slate-700 text-slate-400 font-sans text-center;
   }
 }
 
-@layer components {
-  .marg {
-    @apply ml-4 mt-4;
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 }
+
+.rtl-grid{
+  direction:rtl
+}
+
 /* #container {
     padding:3em;
     display: flex;
@@ -53,11 +60,11 @@
     margin-top: .5em;
 } */
 
-* > ::first-line {
+* > :first-child {
   margin-top: 0 !important;
   margin-left: 0 !important;
 }
-* > :last-line {
+* > :last-child {
   margin-bottom: 0 !important;
   margin-right: 0 !important;
 }
