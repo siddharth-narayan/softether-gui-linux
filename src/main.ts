@@ -1,4 +1,5 @@
 //import { invoke } from "@tauri-apps/api/tauri";
+import Sha0 from "crypto-api-v1/src/hasher/Sha0.mjs"
 import { Child, Command } from '@tauri-apps/api/shell'
 import { BaseDirectory, exists, readTextFile, writeTextFile } from  '@tauri-apps/api/fs'
 import { appDataDir } from "@tauri-apps/api/path";
@@ -19,9 +20,11 @@ function shwrite(line: string){
 }
 
 function writeTerm(line: string){
-  let htmlLine = document.createElement("nu-block")
-  htmlLine.append(document.createTextNode(line))
+  let htmlLine = document.createElement("p")
+  htmlLine.textContent = line
+  //htmlLine.className = "mt-2 p-2 focus-visible:outline-none border-l-4 border-slate-800 text-sm bg-slate-800 text-slate-400 font-sans"
   terminalElement.appendChild(htmlLine)
+  terminalElement.scrollTop = 10000000000
 }
 
 function intitialize(plat: Platform, arch: Arch, appDataDirPath: String){
@@ -104,5 +107,14 @@ window.addEventListener("DOMContentLoaded",  async () => {
     console.log("intitializing")
     intitialize(await platform(), await arch(), await appDataDir())
   }
+
+  
+
+let hasher = new Sha0();
+hasher.update('sidis2cool4u!SIDDHARTH')
+
+let buff = new Buffer.from(hasher.finalize());
+let base64data = buff.toString('base64');
+console.log(base64data)
 });
 
