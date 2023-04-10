@@ -551,6 +551,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "extendhash"
+version = "1.0.10"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9812c4d73200994a644a38c0d0a5397cf51b5e28ac02668601d56df902f450e6"
+
+[[package]]
 name = "fastrand"
 version = "1.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2246,6 +2252,7 @@ checksum = "a507befe795404456341dfab10cef66ead4c041f62b8b11bbb92bffe5d0953e0"
 name = "softether-gui-linux"
 version = "0.0.0"
 dependencies = [
+ "extendhash",
  "serde",
  "serde_json",
  "tauri",

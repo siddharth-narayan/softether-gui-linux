@@ -2,6 +2,7 @@ import { Child, Command } from '@tauri-apps/api/shell'
 import { BaseDirectory, exists, readTextFile, writeTextFile } from  '@tauri-apps/api/fs'
 import { appDataDir } from "@tauri-apps/api/path";
 import { Arch, arch, Platform, platform } from '@tauri-apps/api/os'
+import { invoke } from '@tauri-apps/api/tauri'
 
 let sh: Child;
 let terminalElement: HTMLElement;
@@ -29,11 +30,18 @@ function writeTerm(line: string){
   terminalElement.scrollTop = 10000000000
 }
 
-function makeAccount(){
-  let username = userEl.textContent
-  let password = passEl.textContent
-  let serverHost = serverHostEl.textContent
-  
+async function makeAccount(){
+  let username = userEl.textContent!
+  let password = passEl.textContent!
+  let serverHost = serverHostEl.textContent!
+  let port = portEl.textContent!
+
+  let text: String = await readTextFileFromAppData("gui/vpnaccount.template")
+  text.replace("$Username", username)
+  //HASH THE PASSWD
+  text.replace("$HashedPassword", password)
+  text.replace("$ServerHost", serverHost)
+  text.replace("$Port", port)
 }
 
 function intitialize(plat: Platform, arch: Arch, appDataDirPath: String){

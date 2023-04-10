@@ -1,32 +1,41 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <link href="/dist/output.css" rel="stylesheet" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SoftEther GUI</title>
-    <script type="module" src="/src/main.ts" defer></script>
-  </head>
 
-  <body
-    class="p-0 m-0 w-full h-full min-h-full min-w-full bg-slate-900 justify-center flex"
-  >
-    <div id="content" class="justify-center p-2 flex-col flex w-192 pt-[5%]">
-      <div id="auth" class="flex flex-col">
-        <div id="server-info" class="flex mb-2">
-          <input placeholder="Server Address" id="serverHost" class="inp w-10/12" />
-          <input placeholder="Port" id="port" pattern="\d*" type="number" min="1" max="65535" class="inp w-2/12" />
-        </div>
+<head>
+  <meta charset="UTF-8" />
+  <link href="/dist/output.css" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SoftEther GUI</title>
+  <script type="module" src="/src/main.ts" defer></script>
+</head>
 
-        <input placeholder="Username" id="username" class="inp mb-2" />
-        <input placeholder="Password" id="password" class="inp" />
+<body class="p-0 m-0 w-full h-full min-h-full min-w-full bg-slate-900 justify-center flex">
+  <div id="content" class="justify-center p-2 flex-col flex w-192 pt-[5%]">
+    <div id="auth" class="flex flex-col">
+      <div id="server-info" class="flex mb-2">
+        <input placeholder="Server Address" id="serverHost" class="inp w-10/12" />
+        <input placeholder="Port" id="port" pattern="\d*" type="number" min="1" max="65535" class="inp w-2/12" />
       </div>
 
-      <div id="cmd" class="empty:hidden overflow-scroll max-h-96 flex-col flex mt-8 p-2 focus-visible:outline-none border-l-4 border-slate-800 text-sm bg-slate-800 text-slate-400 font-sans"></div>
-
-      <div id="buttons" class="mt-8 rtl-grid">
-        <button id="start" onclick="start()" class="border-none transition-all text-sm py-1 px-2 text-green-200 bg-green-800 hover:bg-green-900 hover:cursor-pointer">Start</button>
-      </div>
+      <input placeholder="Username" id="username" class="inp mb-2" />
+      <input placeholder="Password" id="password" class="inp" />
     </div>
-  </body>
+
+    <div id="cmd"
+      class="empty:hidden overflow-scroll max-h-96 flex-col flex mt-8 p-2 focus-visible:outline-none border-l-4 border-slate-800 text-sm bg-slate-800 text-slate-400 font-sans"></div>
+
+    <div id="bottom" class="mt-8 flex">
+      <div id="accountselector" class="w-1/2"><button class="inp button">Select Account</button></div>
+
+      <div id="buttons" class="w-1/2 rtl-grid">
+        <button id="start" onclick="start()"
+          class="button text-green-200 bg-green-800 hover:bg-green-900">Start</button>
+        <button class="button inp" onclick="makeAccount()">Save account</button>
+      </div>
+
+
+    </div>
+  </div>
+</body>
+
 </html>
