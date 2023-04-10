@@ -14,12 +14,12 @@
     <div id="content" class="justify-center p-2 flex-col flex w-192 pt-[5%]">
       <div id="auth" class="flex flex-col">
         <div id="server-info" class="flex mb-2">
-          <input placeholder="Server Address" class="inp w-10/12" />
-          <input placeholder="Port" pattern="\d*" type="number" min="1" max="65535" class="inp w-2/12" />
+          <input placeholder="Server Address" id="serverHost" class="inp w-10/12" />
+          <input placeholder="Port" id="port" pattern="\d*" type="number" min="1" max="65535" class="inp w-2/12" />
         </div>
 
-        <input placeholder="Username" class="inp mb-2" />
-        <input placeholder="Password" class="inp" />
+        <input placeholder="Username" id="username" class="inp mb-2" />
+        <input placeholder="Password" id="password" class="inp" />
       </div>
 
       <div id="cmd" class="empty:hidden overflow-scroll max-h-96 flex-col flex mt-8 p-2 focus-visible:outline-none border-l-4 border-slate-800 text-sm bg-slate-800 text-slate-400 font-sans"></div>

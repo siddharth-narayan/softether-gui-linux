@@ -23,7 +23,7 @@ fn main() {
 
     let tray = SystemTray::new().with_menu(menu);
 
-    fn tray_event(app: &AppHandle<R>, event: tray::SystemTrayEvent){
+    fn tray_event(app: AppHandle, event: SystemTrayEvent){
         match event {
             SystemTrayEvent::LeftClick {
               position: _,
@@ -70,7 +70,7 @@ fn main() {
 
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![greet])
-        .system_tray(tray).on_system_tray_event(handler)
+        .system_tray(tray).on_system_tray_event(| app, event | tray_event(app.clone(), event))
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
