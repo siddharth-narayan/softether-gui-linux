@@ -1,5 +1,3 @@
-//import { invoke } from "@tauri-apps/api/tauri";
-import Sha0 from "crypto-api-v1/src/hasher/Sha0.mjs"
 import { Child, Command } from '@tauri-apps/api/shell'
 import { BaseDirectory, exists, readTextFile, writeTextFile } from  '@tauri-apps/api/fs'
 import { appDataDir } from "@tauri-apps/api/path";
@@ -7,11 +5,15 @@ import { Arch, arch, Platform, platform } from '@tauri-apps/api/os'
 
 let sh: Child;
 let terminalElement: HTMLElement;
+let userEl: HTMLElement
+let passEl: HTMLElement
+let serverHostEl: HTMLElement
+let portEl: HTMLElement
+let authTypeEl: HTMLElement
 
 async function readTextFileFromAppData(path: string): Promise<String> {
   return readTextFile(path, {dir: BaseDirectory.AppData})
 }
-
 
 function shwrite(line: string){
   sh.write(line + "\n")
@@ -25,6 +27,13 @@ function writeTerm(line: string){
   //htmlLine.className = "mt-2 p-2 focus-visible:outline-none border-l-4 border-slate-800 text-sm bg-slate-800 text-slate-400 font-sans"
   terminalElement.appendChild(htmlLine)
   terminalElement.scrollTop = 10000000000
+}
+
+function makeAccount(){
+  let username = userEl.textContent
+  let password = passEl.textContent
+  let serverHost = serverHostEl.textContent
+  
 }
 
 function intitialize(plat: Platform, arch: Arch, appDataDirPath: String){
@@ -81,21 +90,23 @@ function intitialize(plat: Platform, arch: Arch, appDataDirPath: String){
       break
   }
 
-  shwrite("cp assets/blank.json " + appDataDirPath + "config.json")
+  shwrite("mv assets/gui " + appDataDirPath)
   shwrite("cd " + appDataDirPath)
   shwrite("wget $(curl -s https://api.github.com/repos/SoftEtherVPN/SoftEtherVPN_Stable/releases/latest | grep 'browser_' | cut -d\\\" -f4 | " + awk + "')")
   shwrite("gzip -d $(ls | grep soft | cut -d ' ' -f9)")
   shwrite("tar -xvf $(ls | grep soft | cut -d ' ' -f9)")
   shwrite("rm $(ls | grep soft | cut -d ' ' -f9)")
-  shwrite("cd ./vpnclient/")
-  shwrite("cat $(ls | cut -d ' ' -f9 | awk '/License/ && /en/')")
-  shwrite("make main")
 
 }
 
 window.addEventListener("DOMContentLoaded",  async () => {
 
   terminalElement = document.getElementById('cmd')!
+  userEl = document.getElementById('username')!
+  passEl = document.getElementById('password')!
+  serverHostEl = document.getElementById('serverHost')!
+  portEl = document.getElementById('port')!
+  // authTypeEl = document.getElementById('')!
 
   let command = new Command("sh")
   sh = await command.spawn().then()
@@ -103,18 +114,10 @@ window.addEventListener("DOMContentLoaded",  async () => {
     writeTerm(line)
   })
   
-  if(!await exists("config.json", { dir: BaseDirectory.AppData })){
+  if(!await exists("gui/config.json", { dir: BaseDirectory.AppData })){
     console.log("intitializing")
     intitialize(await platform(), await arch(), await appDataDir())
   }
 
-  
-
-let hasher = new Sha0();
-hasher.update('sidis2cool4u!SIDDHARTH')
-
-let buff = new Buffer.from(hasher.finalize());
-let base64data = buff.toString('base64');
-console.log(base64data)
 });
 
