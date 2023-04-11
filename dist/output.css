@@ -548,14 +548,6 @@ input[type="number"]::-webkit-inner-spin-button,
   background-color: rgb(51 65 85 / var(--tw-bg-opacity));
 }
 
-.inp:focus::-moz-placeholder {
-  color: transparent;
-}
-
-.inp:focus::placeholder {
-  color: transparent;
-}
-
 .inp:focus-visible {
   outline: 2px solid transparent;
   outline-offset: 2px;
@@ -606,6 +598,10 @@ input[type="number"]::-webkit-inner-spin-button,
   min-height: 100%;
 }
 
+.w-1\/2 {
+  width: 50%;
+}
+
 .w-10\/12 {
   width: 83.333333%;
 }
@@ -620,14 +616,6 @@ input[type="number"]::-webkit-inner-spin-button,
 
 .w-full {
   width: 100%;
-}
-
-.w-1 {
-  width: 0.25rem;
-}
-
-.w-1\/2 {
-  width: 50%;
 }
 
 .min-w-full {
@@ -655,6 +643,11 @@ input[type="number"]::-webkit-inner-spin-button,
   border-color: rgb(30 41 59 / var(--tw-border-opacity));
 }
 
+.bg-green-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(22 101 52 / var(--tw-bg-opacity));
+}
+
 .bg-slate-800 {
   --tw-bg-opacity: 1;
   background-color: rgb(30 41 59 / var(--tw-bg-opacity));
@@ -665,9 +658,9 @@ input[type="number"]::-webkit-inner-spin-button,
   background-color: rgb(15 23 42 / var(--tw-bg-opacity));
 }
 
-.bg-green-800 {
+.bg-slate-700 {
   --tw-bg-opacity: 1;
-  background-color: rgb(22 101 52 / var(--tw-bg-opacity));
+  background-color: rgb(51 65 85 / var(--tw-bg-opacity));
 }
 
 .p-0 {
@@ -678,8 +671,8 @@ input[type="number"]::-webkit-inner-spin-button,
   padding: 0.5rem;
 }
 
-.pt-\[5\%\] {
-  padding-top: 5%;
+.pt-12 {
+  padding-top: 3rem;
 }
 
 .font-sans {
@@ -691,18 +684,18 @@ input[type="number"]::-webkit-inner-spin-button,
   line-height: 1.25rem;
 }
 
-.text-slate-400 {
-  --tw-text-opacity: 1;
-  color: rgb(148 163 184 / var(--tw-text-opacity));
-}
-
 .text-green-200 {
   --tw-text-opacity: 1;
   color: rgb(187 247 208 / var(--tw-text-opacity));
 }
 
-.rtl-grid{
-  direction:rtl
+.text-slate-400 {
+  --tw-text-opacity: 1;
+  color: rgb(148 163 184 / var(--tw-text-opacity));
+}
+
+.rtl-grid {
+  direction: rtl
 }
 
 /* #container {
@@ -745,12 +738,12 @@ input[type="number"]::-webkit-inner-spin-button,
     margin-top: .5em;
 } */
 
-* > :first-child {
+*> :first-child {
   margin-top: 0 !important;
   margin-left: 0 !important;
 }
 
-* > :last-child {
+*> :last-child {
   margin-bottom: 0 !important;
   margin-right: 0 !important;
 }

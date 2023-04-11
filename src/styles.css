@@ -4,13 +4,13 @@
 
 @layer components {
   .inp {
-    @apply transition-all p-2 focus: placeholder:text-transparent focus-visible:outline-none hover:border-slate-600 border-l-4 border-slate-800 cursor-pointer text-sm bg-slate-800 hover:bg-slate-700 text-slate-400 font-sans text-center;
+    @apply transition-all p-2 focus-visible:outline-none hover:border-slate-600 border-l-4 border-slate-800 cursor-pointer text-sm bg-slate-800 hover:bg-slate-700 text-slate-400 font-sans text-center;
   }
 }
 
 @layer components {
   .button {
-    @apply border-none transition-all text-sm py-1 px-2 hover: cursor-pointer
+    @apply border-none transition-all text-sm py-1 px-2 hover:cursor-pointer
   }
 }
 
