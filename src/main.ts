@@ -6,14 +6,19 @@ import { invoke } from '@tauri-apps/api/tauri'
 
 let sh: Child;
 let terminalElement: HTMLElement;
-let userEl: HTMLElement
-let passEl: HTMLElement
-let serverHostEl: HTMLElement
-let portEl: HTMLElement
+let userEl: HTMLInputElement
+let passEl: HTMLInputElement
+let serverHostEl: HTMLInputElement
+let portEl: HTMLInputElement
 let authTypeEl: HTMLElement
+let accountCreateEl: HTMLElement
 
 async function readTextFileFromAppData(path: string): Promise<String> {
   return readTextFile(path, {dir: BaseDirectory.AppData})
+}
+
+async function writeTextFileToAppData(path: string, contents: string){
+  return writeTextFile(path, contents, {dir: BaseDirectory.AppData })
 }
 
 function shwrite(line: string){
@@ -31,17 +36,22 @@ function writeTerm(line: string){
 }
 
 async function makeAccount(){
-  let username = userEl.textContent!
-  let password = passEl.textContent!
-  let serverHost = serverHostEl.textContent!
-  let port = portEl.textContent!
+  console.log("makingAccount")
+  let username = userEl.value!
+  let password = passEl.value!
+  console.log(username+password.toUpperCase())
+  let serverHost = serverHostEl.value
+  let port = portEl.value
 
   let text: String = await readTextFileFromAppData("gui/vpnaccount.template")
   text.replace("$Username", username)
   //HASH THE PASSWD
-  text.replace("$HashedPassword", password)
+  text.replace("$HashedPassword", await invoke("sha0", {password: (password + username.toUpperCase())} ))
+  console.log(await invoke("sha0", {password: (password + username.toUpperCase())} ))
   text.replace("$ServerHost", serverHost)
   text.replace("$Port", port)
+
+  writeTextFileToAppData("gui/accounts/" + username.toLowerCase)
 }
 
 function intitialize(plat: Platform, arch: Arch, appDataDirPath: String){
@@ -98,7 +108,7 @@ function intitialize(plat: Platform, arch: Arch, appDataDirPath: String){
       break
   }
 
-  shwrite("mv assets/gui " + appDataDirPath)
+  shwrite("cp assets/gui " + appDataDirPath)
   shwrite("cd " + appDataDirPath)
   shwrite("wget $(curl -s https://api.github.com/repos/SoftEtherVPN/SoftEtherVPN_Stable/releases/latest | grep 'browser_' | cut -d\\\" -f4 | " + awk + "')")
   shwrite("gzip -d $(ls | grep soft | cut -d ' ' -f9)")
@@ -110,11 +120,16 @@ function intitialize(plat: Platform, arch: Arch, appDataDirPath: String){
 window.addEventListener("DOMContentLoaded",  async () => {
 
   terminalElement = document.getElementById('cmd')!
-  userEl = document.getElementById('username')!
-  passEl = document.getElementById('password')!
-  serverHostEl = document.getElementById('serverHost')!
-  portEl = document.getElementById('port')!
+  userEl = <HTMLInputElement>document.getElementById('username')!
+  passEl = <HTMLInputElement>document.getElementById('password')!
+  serverHostEl = <HTMLInputElement>document.getElementById('serverHost')!
+  portEl = <HTMLInputElement>document.getElementById('port')!
   // authTypeEl = document.getElementById('')!
+  
+  accountCreateEl = document.getElementById("accountCreate")!
+
+  accountCreateEl.addEventListener("click", function (event){makeAccount()})
+
 
   let command = new Command("sh")
   sh = await command.spawn().then()
@@ -126,6 +141,5 @@ window.addEventListener("DOMContentLoaded",  async () => {
     console.log("intitializing")
     intitialize(await platform(), await arch(), await appDataDir())
   }
-
 });
 

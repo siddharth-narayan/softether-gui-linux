@@ -2,13 +2,15 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use extendhash::sha0;
+use base64::encode;
 use tauri::{SystemTray, Manager, AppHandle, SystemTrayEvent};
 use tauri::{CustomMenuItem, SystemTrayMenu, SystemTrayMenuItem};
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
 fn sha0(password: &str) -> String {
-    return String::from_utf8(sha0::compute_hash(password.as_bytes()).to_vec()).unwrap();
+  println!("{}", password);
+  return base64::encode(sha0::compute_hash(password.as_bytes()));
 }
 
 fn main() {

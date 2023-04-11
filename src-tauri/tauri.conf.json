@@ -27,7 +27,7 @@
       },
       "fs": {
         "all": true,
-        "scope": ["$APPDATA/*", "$APPCONFIG/*, $APP/*"]
+        "scope": ["$APPDATA/*/**", "$APPCONFIG/*/**", "$APP/*/**"]
       },
       "path":{
         "all": true
