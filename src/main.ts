@@ -135,6 +135,8 @@ function intitialize(plat: Platform, arch: Arch, appDataDirPath: String){
 
 window.addEventListener("DOMContentLoaded",  async () => {
 
+  invoke("startVpnServer", {});
+
   terminalElement = document.getElementById('cmd')!
   userEl = <HTMLInputElement>document.getElementById('username')!
   passEl = <HTMLInputElement>document.getElementById('password')!

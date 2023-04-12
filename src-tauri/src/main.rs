@@ -3,7 +3,9 @@
 
 use base64::encode;
 use extendhash::sha0;
+use nix::unistd::Uid;
 use std::process::Command;
+use tauri::Env;
 use tauri::{AppHandle, Manager, SystemTray, SystemTrayEvent};
 use tauri::{CustomMenuItem, SystemTrayMenu, SystemTrayMenuItem};
 
@@ -14,19 +16,25 @@ fn sha0(password: &str) -> String {
     return base64::encode(sha0::compute_hash(password.as_bytes()));
 }
 
+#[tauri::command]
+fn start_vpn_server() {
+  let appDataDir = Env::default().appdir.unwrap().to_str().unwrap().to_owned();
+  let mut binding = Command::new(appDataDir.clone() + "vpnclient/vpnserver start");
+  let mut command = binding.current_dir(appDataDir);
+  command.spawn().unwrap();
+}
+
 fn main() {
-  let output:string = Command::new("ls").spawn().unwrap().wait_with_output().unwrap().stdout).unwrap();
-    println!("{}", 
-    ;
-    
-
-
-
-
-
-
-
-
+    let output: String = String::from_utf8(
+        Command::new("")
+            .spawn()
+            .unwrap()
+            .wait_with_output()
+            .unwrap()
+            .stdout,
+    )
+    .unwrap();
+    println!("{}", output);
 
     let disconnect = CustomMenuItem::new("disconnect".to_string(), "Disconnect");
     let connect = CustomMenuItem::new("connect".to_string(), "Connect");
@@ -81,6 +89,7 @@ fn main() {
 
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![sha0])
+        .invoke_handler(tauri::generate_handler![start_vpn_server])
         .system_tray(tray)
         .on_system_tray_event(|app, event| tray_event(app.clone(), event))
         .run(tauri::generate_context!())
