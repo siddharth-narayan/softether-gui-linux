@@ -658,11 +658,6 @@ input[type="number"]::-webkit-inner-spin-button,
   background-color: rgb(15 23 42 / var(--tw-bg-opacity));
 }
 
-.bg-slate-700 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(51 65 85 / var(--tw-bg-opacity));
-}
-
 .p-0 {
   padding: 0px;
 }

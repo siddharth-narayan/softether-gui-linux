@@ -3,6 +3,7 @@ import { BaseDirectory, exists, readTextFile, writeTextFile } from  '@tauri-apps
 import { appDataDir } from "@tauri-apps/api/path";
 import { Arch, arch, Platform, platform } from '@tauri-apps/api/os'
 import { invoke } from '@tauri-apps/api/tauri'
+import { stat } from 'fs';
 
 let sh: Child;
 let terminalElement: HTMLElement;
@@ -12,6 +13,9 @@ let serverHostEl: HTMLInputElement
 let portEl: HTMLInputElement
 let authTypeEl: HTMLElement
 let accountCreateEl: HTMLElement
+let startButtonEl: HTMLElement
+
+let appDataDirPath: string
 
 async function readTextFileFromAppData(path: string): Promise<String> {
   return readTextFile(path, {dir: BaseDirectory.AppData})
@@ -24,7 +28,7 @@ async function writeTextFileToAppData(path: string, contents: string){
 function shwrite(line: string){
   sh.write(line + "\n")
   console.log("Wrote to shell: " + line)
-  writeTerm("$ " + line)
+  writeTerm("$ " + line) 
 }
 
 function writeTerm(line: string){
@@ -35,13 +39,25 @@ function writeTerm(line: string){
   terminalElement.scrollTop = 10000000000
 }
 
-async function makeAccount(){
-  console.log("makingAccount")
+function startCon(){
+
+  // if(ACCOUNT SELECTED){
+
+  // } else {
+
+  // }
+
   let username = userEl.value!
   let password = passEl.value!
-  console.log(username+password.toUpperCase())
   let serverHost = serverHostEl.value
   let port = portEl.value
+
+  makeAccount(username, password, serverHost, port, "temp")
+
+  invoke("startConnection", {path: appDataDirPath + "gui/accounts/temp.vpn"})
+}
+
+async function makeAccount(username:string, password:string, serverHost:string, port:string, name: string){
 
   let text: String = await readTextFileFromAppData("gui/vpnaccount.template")
   text.replace("$Username", username)
@@ -51,7 +67,7 @@ async function makeAccount(){
   text.replace("$ServerHost", serverHost)
   text.replace("$Port", port)
 
-  writeTextFileToAppData("gui/accounts/" + username.toLowerCase)
+  writeTextFileToAppData("gui/accounts/" + name +".vpn", text.toString())
 }
 
 function intitialize(plat: Platform, arch: Arch, appDataDirPath: String){
@@ -127,9 +143,18 @@ window.addEventListener("DOMContentLoaded",  async () => {
   // authTypeEl = document.getElementById('')!
   
   accountCreateEl = document.getElementById("accountCreate")!
+  startButtonEl = document.getElementById("start-button")!
 
-  accountCreateEl.addEventListener("click", function (event){makeAccount()})
+  accountCreateEl.addEventListener("click", () => {
+    let username = userEl.value!
+    let password = passEl.value!
+    let serverHost = serverHostEl.value
+    let port = portEl.value
+  
+    makeAccount(username, password, serverHost, port, "temp")  
+  })
 
+  startButtonEl.addEventListener("click", () => {startCon()})
 
   let command = new Command("sh")
   sh = await command.spawn().then()
@@ -137,9 +162,10 @@ window.addEventListener("DOMContentLoaded",  async () => {
     writeTerm(line)
   })
   
+  appDataDirPath =  await appDataDir()
+
   if(!await exists("gui/config.json", { dir: BaseDirectory.AppData })){
     console.log("intitializing")
-    intitialize(await platform(), await arch(), await appDataDir())
+    intitialize(await platform(), await arch(), appDataDirPath)
   }
 });
-
