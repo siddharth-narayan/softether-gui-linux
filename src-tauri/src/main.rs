@@ -3,39 +3,22 @@
 
 use base64::encode;
 use extendhash::sha0;
+use tauri::api::path::app_data_dir;
+use std::path::PathBuf;
 use nix::unistd::Uid;
 use std::process::Command;
-use tauri::Env;
+use tauri::{Env, PathResolver, Config};
 use tauri::{AppHandle, Manager, SystemTray, SystemTrayEvent};
 use tauri::{CustomMenuItem, SystemTrayMenu, SystemTrayMenuItem};
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
-fn sha0(password: &str) -> String {
+fn sha(password: &str) -> String {
     println!("{}", password);
     return base64::encode(sha0::compute_hash(password.as_bytes()));
 }
 
-#[tauri::command]
-fn start_vpn_server() {
-  let appDataDir = Env::default().appdir.unwrap().to_str().unwrap().to_owned();
-  let mut binding = Command::new(appDataDir.clone() + "vpnclient/vpnserver start");
-  let mut command = binding.current_dir(appDataDir);
-  command.spawn().unwrap();
-}
-
 fn main() {
-    let output: String = String::from_utf8(
-        Command::new("")
-            .spawn()
-            .unwrap()
-            .wait_with_output()
-            .unwrap()
-            .stdout,
-    )
-    .unwrap();
-    println!("{}", output);
-
     let disconnect = CustomMenuItem::new("disconnect".to_string(), "Disconnect");
     let connect = CustomMenuItem::new("connect".to_string(), "Connect");
     let quit = CustomMenuItem::new("quit".to_string(), "Quit");
@@ -47,51 +30,67 @@ fn main() {
         .add_item(quit);
 
     let tray = SystemTray::new().with_menu(menu);
+    
+    let app = tauri::Builder::default()
+    .invoke_handler(tauri::generate_handler![sha])
+    .system_tray(tray)
+    .on_system_tray_event(|app, event| tray_event(app.clone(), event))
+    .build(tauri::generate_context!()).unwrap();
 
-    fn tray_event(app: AppHandle, event: SystemTrayEvent) {
-        match event {
-            SystemTrayEvent::LeftClick {
-                position: _,
-                size: _,
-                ..
-            } => {
-                println!("system tray received a left click");
-            }
-            SystemTrayEvent::RightClick {
-                position: _,
-                size: _,
-                ..
-            } => {
-                println!("system tray received a right click");
-            }
-            SystemTrayEvent::DoubleClick {
-                position: _,
-                size: _,
-                ..
-            } => {
-                println!("system tray received a double click");
-                let window = app.get_window("main").unwrap();
-                window.show().unwrap()
-            }
-            SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
-                "connect" => {}
+    let binding = app.path_resolver().app_data_dir().unwrap();
+    let app_data_path = binding.to_str().unwrap();
 
-                "disconnect" => {}
+    println!("App data path: {:?}", app_data_path.to_owned() + "/vpnclient/vpnclient" );
 
-                "quit" => {
-                    std::process::exit(0);
-                }
-                _ => {}
-            },
-            _ => {}
+    let mut binding = Command::new("vpnclient/vpnclient");
+    let binding1 = binding.arg("start").current_dir(app_data_path);
+    let command = binding1.current_dir(app_data_path);
+    command.spawn().unwrap();
+
+    app.run(|_app_handle, event| match event {
+        tauri::RunEvent::ExitRequested { api, .. } => {
+          api.prevent_exit();
         }
-    }
+        _ => {}
+      })
 
-    tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![sha0])
-        .invoke_handler(tauri::generate_handler![start_vpn_server])
-        .system_tray(tray)
-        .on_system_tray_event(|app, event| tray_event(app.clone(), event))
-        .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+}
+
+fn tray_event(app: AppHandle, event: SystemTrayEvent) {
+    match event {
+        SystemTrayEvent::LeftClick {
+            position: _,
+            size: _,
+            ..
+        } => {
+            println!("system tray received a left click");
+        }
+        SystemTrayEvent::RightClick {
+            position: _,
+            size: _,
+            ..
+        } => {
+            println!("system tray received a right click");
+        }
+        SystemTrayEvent::DoubleClick {
+            position: _,
+            size: _,
+            ..
+        } => {
+            println!("system tray received a double click");
+            let window = app.get_window("main").unwrap();
+            window.show().unwrap()
+        }
+        SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
+            "connect" => {}
+
+            "disconnect" => {}
+
+            "quit" => {
+                std::process::exit(0);
+            }
+            _ => {}
+        },
+        _ => {}
+    }
 }

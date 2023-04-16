@@ -54,18 +54,17 @@ function startCon(){
 
   makeAccount(username, password, serverHost, port, "temp")
 
-  invoke("startConnection", {path: appDataDirPath + "gui/accounts/temp.vpn"})
+  shwrite("cd " + appDataDirPath + "vpnclient")
+  shwrite("./vpncmd localhost /CLIENT /CMD AccountImport temp.vpn")
+  shwrite("./vpncmd localhost /CLIENT /CMD AccountConnect temp")
+
 }
 
-async function makeAccount(username:string, password:string, serverHost:string, port:string, name: string){
+async function makeAccount(username:string, password:string, hostName:string, port:string, name: string){
 
   let text: String = await readTextFileFromAppData("gui/vpnaccount.template")
-  text.replace("$Username", username)
   //HASH THE PASSWD
-  text.replace("$HashedPassword", await invoke("sha0", {password: (password + username.toUpperCase())} ))
-  console.log(await invoke("sha0", {password: (password + username.toUpperCase())} ))
-  text.replace("$ServerHost", serverHost)
-  text.replace("$Port", port)
+  text = text.replace("$HashedPassword", await invoke("sha", {password: (password + username.toUpperCase())} )).replace("$Port", port).replace("$Hostname", hostName).replace("$Username", username)
 
   writeTextFileToAppData("gui/accounts/" + name +".vpn", text.toString())
 }
@@ -124,18 +123,18 @@ function intitialize(plat: Platform, arch: Arch, appDataDirPath: String){
       break
   }
 
-  shwrite("cp assets/gui " + appDataDirPath)
+  shwrite("cp -r assets/gui " + appDataDirPath)
   shwrite("cd " + appDataDirPath)
   shwrite("wget $(curl -s https://api.github.com/repos/SoftEtherVPN/SoftEtherVPN_Stable/releases/latest | grep 'browser_' | cut -d\\\" -f4 | " + awk + "')")
   shwrite("gzip -d $(ls | grep soft | cut -d ' ' -f9)")
   shwrite("tar -xvf $(ls | grep soft | cut -d ' ' -f9)")
   shwrite("rm $(ls | grep soft | cut -d ' ' -f9)")
+  shwrite("cd " + appDataDirPath + "vpnclient")
+  shwrite("make")
 
 }
 
 window.addEventListener("DOMContentLoaded",  async () => {
-
-  invoke("startVpnServer", {});
 
   terminalElement = document.getElementById('cmd')!
   userEl = <HTMLInputElement>document.getElementById('username')!
