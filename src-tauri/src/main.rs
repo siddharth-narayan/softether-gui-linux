@@ -6,7 +6,7 @@ use extendhash::sha0;
 use tauri::api::path::app_data_dir;
 use std::path::PathBuf;
 use nix::unistd::Uid;
-use std::process::Command;
+use std::process::{Command, Child};
 use tauri::{Env, PathResolver, Config};
 use tauri::{AppHandle, Manager, SystemTray, SystemTrayEvent};
 use tauri::{CustomMenuItem, SystemTrayMenu, SystemTrayMenuItem};
@@ -16,6 +16,21 @@ use tauri::{CustomMenuItem, SystemTrayMenu, SystemTrayMenuItem};
 fn sha(password: &str) -> String {
     println!("{}", password);
     return base64::encode(sha0::compute_hash(password.as_bytes()));
+}
+
+#[tauri::command]
+fn startclient(app_handle: tauri::AppHandle) {
+    let binding = app_handle.path_resolver().app_data_dir().unwrap();
+    let app_data_path = binding.to_str().unwrap();
+
+    println!("{}",app_data_path.to_owned() + "/vpnclient/vpnclient");
+
+    let mut binding = Command::new("pkexec");
+    let binding1 = binding.arg(app_data_path.to_owned() + "/vpnclient/vpnclient").arg("start").current_dir(app_data_path.to_string() + "/vpnclient/");
+    let command = binding1.current_dir(app_data_path);
+
+    
+    println!("{}", String::from_utf8(command.spawn().unwrap().wait_with_output().unwrap().stdout).unwrap());
 }
 
 fn main() {
@@ -32,20 +47,10 @@ fn main() {
     let tray = SystemTray::new().with_menu(menu);
     
     let app = tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![sha])
+    .invoke_handler(tauri::generate_handler![sha, startclient])
     .system_tray(tray)
     .on_system_tray_event(|app, event| tray_event(app.clone(), event))
     .build(tauri::generate_context!()).unwrap();
-
-    let binding = app.path_resolver().app_data_dir().unwrap();
-    let app_data_path = binding.to_str().unwrap();
-
-    println!("App data path: {:?}", app_data_path.to_owned() + "/vpnclient/vpnclient" );
-
-    let mut binding = Command::new("vpnclient/vpnclient");
-    let binding1 = binding.arg("start").current_dir(app_data_path);
-    let command = binding1.current_dir(app_data_path);
-    command.spawn().unwrap();
 
     app.run(|_app_handle, event| match event {
         tauri::RunEvent::ExitRequested { api, .. } => {
@@ -87,6 +92,7 @@ fn tray_event(app: AppHandle, event: SystemTrayEvent) {
             "disconnect" => {}
 
             "quit" => {
+                
                 std::process::exit(0);
             }
             _ => {}

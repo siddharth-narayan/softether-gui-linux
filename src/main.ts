@@ -25,10 +25,10 @@ async function writeTextFileToAppData(path: string, contents: string){
   return writeTextFile(path, contents, {dir: BaseDirectory.AppData })
 }
 
-function shwrite(line: string){
-  sh.write(line + "\n")
+async function shwrite(line: string){
+  await sh.write(line + "\n")
   console.log("Wrote to shell: " + line)
-  writeTerm("$ " + line) 
+  writeTerm("$ " + line)
 }
 
 function writeTerm(line: string){
@@ -39,7 +39,14 @@ function writeTerm(line: string){
   terminalElement.scrollTop = 10000000000
 }
 
-function startCon(){
+async function startClient(){
+  while(!await exists(appDataDirPath + "vpnclient/vpnclient")){
+    console.log("no")
+  }
+  invoke("startclient", {})
+}
+
+async function startCon(){
 
   // if(ACCOUNT SELECTED){
 
@@ -54,17 +61,21 @@ function startCon(){
 
   makeAccount(username, password, serverHost, port, "temp")
 
-  shwrite("cd " + appDataDirPath + "vpnclient")
-  shwrite("./vpncmd localhost /CLIENT /CMD AccountImport temp.vpn")
-  shwrite("./vpncmd localhost /CLIENT /CMD AccountConnect temp")
-
+  await shwrite("cd " + appDataDirPath + "vpnclient")
+  await shwrite("./vpncmd localhost /CLIENT /CMD AccountImport ../gui/accounts/temp.vpn")
+  await shwrite("./vpncmd localhost /CLIENT /CMD AccountConnect " + username + "_" + serverHost)
 }
 
 async function makeAccount(username:string, password:string, hostName:string, port:string, name: string){
 
   let text: String = await readTextFileFromAppData("gui/vpnaccount.template")
   //HASH THE PASSWD
-  text = text.replace("$HashedPassword", await invoke("sha", {password: (password + username.toUpperCase())} )).replace("$Port", port).replace("$Hostname", hostName).replace("$Username", username)
+  text = text
+    .replace("$HashedPassword", await invoke("sha", {password: (password + username.toUpperCase())} ))
+    .replace("$Port", port)
+    .replace("$Hostname", hostName)
+    .replace("$Username", username)
+    .replace("$AccountName", username + "_" + hostName)
 
   writeTextFileToAppData("gui/accounts/" + name +".vpn", text.toString())
 }
@@ -131,10 +142,11 @@ function intitialize(plat: Platform, arch: Arch, appDataDirPath: String){
   shwrite("rm $(ls | grep soft | cut -d ' ' -f9)")
   shwrite("cd " + appDataDirPath + "vpnclient")
   shwrite("make")
-
 }
 
 window.addEventListener("DOMContentLoaded",  async () => {
+
+  
 
   terminalElement = document.getElementById('cmd')!
   userEl = <HTMLInputElement>document.getElementById('username')!
@@ -168,5 +180,7 @@ window.addEventListener("DOMContentLoaded",  async () => {
   if(!await exists("gui/config.json", { dir: BaseDirectory.AppData })){
     console.log("intitializing")
     intitialize(await platform(), await arch(), appDataDirPath)
+    await startClient()
   }
+  
 });
