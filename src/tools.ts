@@ -1,5 +1,4 @@
 import { BaseDirectory, readTextFile, writeTextFile } from "@tauri-apps/api/fs"
-import { Command } from "@tauri-apps/api/shell"
 
 export async function readTextFileFromAppData(path: string): Promise<String> {
     return readTextFile(path, {dir: BaseDirectory.AppData})
@@ -18,7 +17,3 @@ export function writeTerm(line: string){
     terminalElement.scrollTop = 10000000000
 }
 
-export function command(command: string): string{
-    let  c = new Command(command);
-    c.spawn().then().then().
-}

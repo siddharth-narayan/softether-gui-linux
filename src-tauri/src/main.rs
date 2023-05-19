@@ -1,13 +1,8 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use base64::encode;
 use extendhash::sha0;
-use tauri::api::path::app_data_dir;
-use std::path::PathBuf;
-use nix::unistd::Uid;
-use std::process::{Command, Child};
-use tauri::{Env, PathResolver, Config};
+use std::process::{Command};
 use tauri::{AppHandle, Manager, SystemTray, SystemTrayEvent};
 use tauri::{CustomMenuItem, SystemTrayMenu, SystemTrayMenuItem};
 

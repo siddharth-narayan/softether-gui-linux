@@ -1,8 +1,8 @@
 import { invoke } from "@tauri-apps/api/tauri"
 import { readTextFileFromAppData, writeTextFileToAppData } from "./tools"
-import { appDataDirPath } from "./main"
+import { appDataDirPath } from "./startup"
 
-class Account {
+export class Account {
     accountName!: string
     username: string
     password: string = ""
@@ -11,16 +11,16 @@ class Account {
     isImported = false
     accountFilePath: string = ""
 
-    constructor(username: string, password: string, hostname: string, port: string, accountName: string | null){
+    constructor(username: string, password: string, hostname: string, port: string, temp: boolean){
         this.username = username
         this.password = password
         this.hostname = hostname 
         this.port = port
 
-        if (accountName != null){
-            this.accountName = accountName
+        if (temp){
+            this.accountName = "temp"
         } else {
-            accountName = "temp"
+            this.accountName = username + "_" + hostname
         }
     }
 
