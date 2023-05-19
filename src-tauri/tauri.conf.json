@@ -21,8 +21,8 @@
           {
             "name": "sh",
             "cmd": "sh",
-            "args": []
-          }
+            "args": ["-c", { "validator": "\\S+" }]
+          } 
         ]
       },
       "fs": {
