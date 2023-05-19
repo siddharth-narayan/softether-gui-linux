@@ -6,38 +6,10 @@ import { invoke } from '@tauri-apps/api/tauri'
 import { stat } from 'fs';
 
 let sh: Child;
-let terminalElement: HTMLElement;
-let userEl: HTMLInputElement
-let passEl: HTMLInputElement
-let serverHostEl: HTMLInputElement
-let portEl: HTMLInputElement
-let authTypeEl: HTMLElement
 let accountCreateEl: HTMLElement
 let startButtonEl: HTMLElement
 
-let appDataDirPath: string
-
-async function readTextFileFromAppData(path: string): Promise<String> {
-  return readTextFile(path, {dir: BaseDirectory.AppData})
-}
-
-async function writeTextFileToAppData(path: string, contents: string){
-  return writeTextFile(path, contents, {dir: BaseDirectory.AppData })
-}
-
-async function shwrite(line: string){
-  await sh.write(line + "\n")
-  console.log("Wrote to shell: " + line)
-  writeTerm("$ " + line)
-}
-
-function writeTerm(line: string){
-  let htmlLine = document.createElement("p")
-  htmlLine.textContent = line
-  //htmlLine.className = "mt-2 p-2 focus-visible:outline-none border-l-4 border-slate-800 text-sm bg-slate-800 text-slate-400 font-sans"
-  terminalElement.appendChild(htmlLine)
-  terminalElement.scrollTop = 10000000000
-}
+export let appDataDirPath: string
 
 async function startClient(){
   while(!await exists(appDataDirPath + "vpnclient/vpnclient")){
@@ -62,22 +34,8 @@ async function startCon(){
   makeAccount(username, password, serverHost, port, "temp")
 
   await shwrite("cd " + appDataDirPath + "vpnclient")
-  await shwrite("./vpncmd localhost /CLIENT /CMD AccountImport ../gui/accounts/temp.vpn")
-  await shwrite("./vpncmd localhost /CLIENT /CMD AccountConnect " + username + "_" + serverHost)
-}
-
-async function makeAccount(username:string, password:string, hostName:string, port:string, name: string){
-
-  let text: String = await readTextFileFromAppData("gui/vpnaccount.template")
-  //HASH THE PASSWD
-  text = text
-    .replace("$HashedPassword", await invoke("sha", {password: (password + username.toUpperCase())} ))
-    .replace("$Port", port)
-    .replace("$Hostname", hostName)
-    .replace("$Username", username)
-    .replace("$AccountName", username + "_" + hostName)
-
-  writeTextFileToAppData("gui/accounts/" + name +".vpn", text.toString())
+  
+  
 }
 
 function intitialize(plat: Platform, arch: Arch, appDataDirPath: String){
@@ -148,7 +106,7 @@ window.addEventListener("DOMContentLoaded",  async () => {
 
   
 
-  terminalElement = document.getElementById('cmd')!
+  
   userEl = <HTMLInputElement>document.getElementById('username')!
   passEl = <HTMLInputElement>document.getElementById('password')!
   serverHostEl = <HTMLInputElement>document.getElementById('serverHost')!
