@@ -4,7 +4,7 @@ import { Arch, Platform, arch, platform } from "@tauri-apps/api/os";
 import { appDataDir } from "@tauri-apps/api/path";
 import { Account } from "./account";
 import { accounts, startCon } from "./main";
-import { execute } from "./main";
+import { execute } from "./tools";
 
 export let appDataDirPath: string
 
@@ -69,13 +69,13 @@ async function setup(plat: Platform, arch: Arch, appDataDirPath: String) {
       awk += " && /linux/";
       break;
   }
-
-  await execute("cp -r assets/gui " + appDataDirPath)
-  await execute("wget $(curl -s https://api.github.com/repos/SoftEtherVPN/SoftEtherVPN_Stable/releases/latest | grep 'browser_' | cut -d\\\" -f4 | " + awk + "')");
-  await execute("gzip -d $(ls | grep soft | cut -d ' ' -f9)");
-  await execute("tar -xvf $(ls | grep soft | cut -d ' ' -f9)");
-  await execute("rm $(ls | grep soft | cut -d ' ' -f9)");
-  await execute("make", appDataDirPath + "vpnclient");
+  
+  // await execute("cp -r assets/gui " + appDataDirPath)
+  // await execute("wget $(curl -s https://api.github.com/repos/SoftEtherVPN/SoftEtherVPN_Stable/releases/latest | grep 'browser_' | cut -d\\\" -f4 | " + awk + "')");
+  // await execute("gzip -d $(ls | grep soft | cut -d ' ' -f9)");
+  // await execute("tar -xvf $(ls | grep soft | cut -d ' ' -f9)");
+  // await execute("rm $(ls | grep soft | cut -d ' ' -f9)");
+  // await execute("make", appDataDirPath + "vpnclient");
 }
 
 function setupElements(){
@@ -113,11 +113,11 @@ export async function startup() {
   setupElements()
   attachListeners()
 
-  if (!(await exists("gui/config.json", { dir: BaseDirectory.AppData }))) {
-    console.log("intitializing");
-    setup(await platform(), await arch(), appDataDirPath);
-    await startClient();
-  }
+  // if (!(await exists("gui/config.json", { dir: BaseDirectory.AppData }))) {
+  //   console.log("intitializing");
+  //   setup(await platform(), await arch(), appDataDirPath);
+  //   await startClient();
+  // }
 }
 
 async function startClient() {

@@ -21,7 +21,7 @@
           {
             "name": "sh",
             "cmd": "sh",
-            "args": []
+            "args": true
           } 
         ]
       },
