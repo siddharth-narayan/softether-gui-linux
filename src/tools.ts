@@ -3,29 +3,54 @@ import { BaseDirectory, readTextFile, writeTextFile } from "@tauri-apps/api/fs"
 import { Command } from "@tauri-apps/api/shell";
 
 export async function readTextFileFromAppData(path: string): Promise<String> {
-    return readTextFile(path, {dir: BaseDirectory.AppData})
+    return readTextFile(path, { dir: BaseDirectory.AppData })
 }
 
-export async function writeTextFileToAppData(path: string, contents: string){
-    return writeTextFile(path, contents, {dir: BaseDirectory.AppData })
+export function getCurrentDate(): string {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear().toString();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = currentDate.getDate().toString().padStart(2, '0');
+
+    return `${year}${month}${day}`;
 }
 
-export async function execute(string: string, cwd?: string): Promise<string> {
+export async function writeTextFileToAppData(path: string, contents: string) {
+    return writeTextFile(path, contents, { dir: BaseDirectory.AppData })
+}
 
-    let command = new Command("sh", ["-c", string], {cwd: cwd});
-      
-    command.stdout.on("data", (line: string) => {
-    writeTerm(line)
-      console.log(line)
-    });
-
-    let output = (await command.execute()).stdout;
-    console.log("aewg")
-    console.log(output)
-    return output
+export function assert(condition: boolean, message: string) {
+    if (!condition) {
+      throw new Error(message || "Assertion failed");
+    }
   }
 
-export function writeTerm(line: string){
+export async function execute(string: string, cwd?: string, hideOutput?: boolean): Promise<number | null> {
+    if (hideOutput === undefined){
+        hideOutput === false
+    }
+
+    if (!hideOutput) {
+        writeTerm("$ " + string)
+    }
+
+    let command = new Command("sh", ["-c", string], { cwd: cwd });
+
+    if (!hideOutput) {
+        command.stdout.on("data", (line: string) => {
+            writeTerm(line)
+            //console.log(line)
+        });
+    }
+
+
+    let output = (await command.execute()).code;
+    
+    console.log(output)
+    return output
+}
+
+export function writeTerm(line: string) {
     let terminalElement = document.getElementById('cmd')!
     let htmlLine = document.createElement("p")
     htmlLine.textContent = line

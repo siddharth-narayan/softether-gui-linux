@@ -10,11 +10,21 @@ use tauri::{CustomMenuItem, SystemTrayMenu, SystemTrayMenuItem};
 #[tauri::command]
 fn sha(password: &str) -> String {
     println!("{}", password);
+    println!("{}", base64::encode(sha0::compute_hash(password.as_bytes())));
     return base64::encode(sha0::compute_hash(password.as_bytes()));
 }
 
 #[tauri::command]
 fn startclient(app_handle: tauri::AppHandle) {
+    use sysinfo::{ProcessExt, System, SystemExt};
+    let mut procCount = 0;
+
+    let s = System::new_all();
+    for process in s.processes_by_name("vpnclient") {
+        println!("{:?}", process)
+        procCount += 1;
+    }
+
     let binding = app_handle.path_resolver().app_data_dir().unwrap();
     let app_data_path = binding.to_str().unwrap();
 

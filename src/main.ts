@@ -1,15 +1,44 @@
-import { Command } from '@tauri-apps/api/shell';
 import { Account } from './account';
-import { appDataDirPath, startup } from './startup';
-import { execute } from './tools';
+import { appDataDirPath, passEl, portEl, serverHostEl, startButtonEl, startup, stopButtonEl, userEl } from './startup';
+
 export let accounts: Account[] = []
+export let currentAccount: Account
 
-export async function startCon(){
+export async function stopCon() {
+  
+  stopButtonEl.style.display = "none"
+  startButtonEl.style.display = "inline"
+  
+  if (currentAccount == undefined) {
+    return
+  }
 
+  currentAccount.disconAccount()
 }
 
-window.addEventListener("DOMContentLoaded",  async () => {
+export async function startCon() {
+  
+  if (serverHostEl.value == "" || portEl.value == "" || userEl.value == "" || passEl.value == "") {
+    return
+  }
+
+  startButtonEl.style.display = "none"
+  stopButtonEl.style.display = "inline"
+
+
+
+  //  if(ACCOUTN SELECTED){
+
+  //  }
+  let acc = new Account(userEl.value!, passEl.value!, serverHostEl.value!, portEl.value!, true)
+
+  await acc.writeAccountToFile()
+  await acc.importAccount()
+  await acc.conAccount()
+  currentAccount = acc
+}
+
+window.addEventListener("DOMContentLoaded", async () => {
   await startup()
   console.log(appDataDirPath)
-  await execute("ls /")
 }); 

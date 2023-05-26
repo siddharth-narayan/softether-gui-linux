@@ -3,13 +3,14 @@ import { invoke } from "@tauri-apps/api/tauri";
 import { Arch, Platform, arch, platform } from "@tauri-apps/api/os";
 import { appDataDir } from "@tauri-apps/api/path";
 import { Account } from "./account";
-import { accounts, startCon } from "./main";
+import { accounts, startCon, stopCon } from "./main";
 import { execute } from "./tools";
 
 export let appDataDirPath: string
 
 export let accountCreateEl: HTMLElement
 export let startButtonEl: HTMLElement
+export let stopButtonEl: HTMLElement
 export let userEl: HTMLInputElement
 export let passEl: HTMLInputElement
 export let serverHostEl: HTMLInputElement
@@ -70,17 +71,19 @@ async function setup(plat: Platform, arch: Arch, appDataDirPath: String) {
       break;
   }
   
-  // await execute("cp -r assets/gui " + appDataDirPath)
-  // await execute("wget $(curl -s https://api.github.com/repos/SoftEtherVPN/SoftEtherVPN_Stable/releases/latest | grep 'browser_' | cut -d\\\" -f4 | " + awk + "')");
-  // await execute("gzip -d $(ls | grep soft | cut -d ' ' -f9)");
-  // await execute("tar -xvf $(ls | grep soft | cut -d ' ' -f9)");
-  // await execute("rm $(ls | grep soft | cut -d ' ' -f9)");
-  // await execute("make", appDataDirPath + "vpnclient");
+  await execute("cp -r assets/gui " + appDataDirPath)
+  await execute("wget $(curl -s https://api.github.com/repos/SoftEtherVPN/SoftEtherVPN_Stable/releases/latest | grep 'browser_' | cut -d\\\" -f4 | " + awk + "')", appDataDirPath.toString());
+  await execute("gzip -d $(ls | grep soft | cut -d ' ' -f9)", appDataDirPath.toString());
+  await execute("tar -xvf $(ls | grep soft | cut -d ' ' -f9)", appDataDirPath.toString());
+  await execute("rm $(ls | grep soft | cut -d ' ' -f9)", appDataDirPath.toString());
+  await execute("make", appDataDirPath + "vpnclient");
 }
 
 function setupElements(){
   accountCreateEl = <HTMLElement> document.getElementById("accountCreate");
   startButtonEl = <HTMLElement> document.getElementById("start-button");
+  stopButtonEl = <HTMLElement> document.getElementById("stop-button");
+  stopButtonEl.style.display = "none"
   
   userEl = <HTMLInputElement> document.getElementById("username");
   passEl = <HTMLInputElement> document.getElementById("password");
@@ -104,6 +107,7 @@ async function attachListeners(){
 
 
   startButtonEl.addEventListener("click", () => {startCon()})
+  stopButtonEl.addEventListener("click", () => {stopCon()})
 
 }
 
@@ -113,11 +117,12 @@ export async function startup() {
   setupElements()
   attachListeners()
 
-  // if (!(await exists("gui/config.json", { dir: BaseDirectory.AppData }))) {
-  //   console.log("intitializing");
-  //   setup(await platform(), await arch(), appDataDirPath);
-  //   await startClient();
-  // }
+  if (!(await exists("gui/config.json", { dir: BaseDirectory.AppData }))) {
+    console.log("intitializing");
+    await setup(await platform(), await arch(), appDataDirPath);
+    
+  }
+  await startClient();
 }
 
 async function startClient() {
@@ -126,6 +131,7 @@ async function startClient() {
     await delay(500)
     console.log("no");
   }
+  console.log("start client")
 
   invoke("startclient", {});
 }
