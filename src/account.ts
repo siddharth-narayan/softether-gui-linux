@@ -1,6 +1,6 @@
 import { invoke } from "@tauri-apps/api/tauri"
-import { execute, getCurrentDate, readTextFileFromAppData, writeTerm, writeTextFileToAppData } from "./tools"
-import { appDataDirPath, gateways } from "./startup"
+import { delay, execute, getCurrentDate, readTextFileFromAppData, writeTerm, writeTextFileToAppData } from "./tools"
+import { appDataDirPath } from "./startup"
 import { Command } from "@tauri-apps/api/shell"
 
 export class Account {
@@ -54,7 +54,24 @@ export class Account {
             //ip route del default via <old gateway ip>
             //ip route add <hostname ip> via <old gateway ip>
             //then disable ipv6 because it makes the vpn not work at all.
-            await execute("pkexec " + appDataDirPath + "gui/setroute.sh")// + gateways[1] + " " + gateways[0] + " " + this.hostname)
+            await delay(5000)
+            console.log("hi")
+            let gateways: string[] = []
+            let routes: string[] = (await execute("ip route show")).split("\n");
+            for (let i = 0; i < routes.length; i++) {
+              if (routes[i].includes("default") && !routes[i].includes("vpn_vpn")) {
+                gateways[0] = routes[i].split(" ")[2];
+                console.log("contains!")
+              }
+            //   if (routes[i].includes("default") && routes[i].includes("vpn_vpn")) {
+            //     gateways[1] = routes[i].split(" ")[2];
+            //     console.log("contains!")
+            //   }
+              console.log(routes[i])
+          
+            }
+
+            await execute("pkexec " + appDataDirPath + "gui/setroute.sh " + gateways[0] + " " + this.hostname)// + gateways[1] + " " + gateways[0] + " " + this.hostname)
             console.log("pkexec " + appDataDirPath + "gui/setroute.sh " + gateways[0] + " " + this.hostname)
         }
             

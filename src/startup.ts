@@ -4,7 +4,7 @@ import { Arch, Platform, arch, platform } from "@tauri-apps/api/os";
 import { appDataDir } from "@tauri-apps/api/path";
 import { Account } from "./account";
 import { accounts, startCon, stopCon } from "./main";
-import { execute } from "./tools";
+import { delay, execute } from "./tools";
 
 export let appDataDirPath: string
 
@@ -15,8 +15,6 @@ export let userEl: HTMLInputElement
 export let passEl: HTMLInputElement
 export let serverHostEl: HTMLInputElement
 export let portEl: HTMLInputElement
-
-export let gateways: string[] = []
 
 async function setup(plat: Platform, arch: Arch, appDataDirPath: String) {
   let awk = "awk '/vpnclient/";
@@ -124,26 +122,11 @@ export async function startup() {
 
   }
 
-  let routes: string[] = (await execute("ip route show")).split("\n");
-  for (let i = 0; i < routes.length; i++) {
-    if (routes[i].includes("default") && !routes[i].includes("vpn_vpn")) {
-      gateways[0] = routes[i].split(" ")[2];
-      console.log("contains!")
-    }
-    if (routes[i].includes("default") && routes[i].includes("vpn_vpn")) {
-      gateways[1] = routes[i].split(" ")[2];
-      console.log("contains!")
-    }
-    console.log(routes[i])
-
-  }
-
   await startClient();
 }
 
 async function startClient() {
   while (!(await exists(appDataDirPath + "vpnclient/vpnclient"))) {
-    const delay = (ms: number | undefined) => new Promise(res => setTimeout(res, ms));
     await delay(500)
     console.log("no");
   }

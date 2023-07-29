@@ -50,6 +50,10 @@ export async function execute(string: string, cwd?: string, hideOutput?: boolean
     return output
 }
 
+export function delay(ms: number): Promise<void>{
+    return new Promise<void>((resolve) => setTimeout(resolve, ms));
+}
+
 export function writeTerm(line: string) {
     let terminalElement = document.getElementById('cmd')!
     let htmlLine = document.createElement("p")
