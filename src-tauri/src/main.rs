@@ -2,9 +2,12 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use extendhash::sha0;
+use nix::sys::socket::Ipv4Addr;
 use std::process::{Command};
 use tauri::{AppHandle, Manager, SystemTray, SystemTrayEvent};
 use tauri::{CustomMenuItem, SystemTrayMenu, SystemTrayMenuItem};
+use sysinfo::{ProcessExt, System, SystemExt};
+use rtnetlink::{RouteAddRequest, RouteHandle};
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
@@ -14,6 +17,7 @@ fn sha(password: &str) -> String {
     return base64::encode(sha0::compute_hash(password.as_bytes()));
 }
 
+
 #[tauri::command]
 fn startclient(app_handle: tauri::AppHandle) {
     use sysinfo::{ProcessExt, System, SystemExt};
@@ -21,8 +25,12 @@ fn startclient(app_handle: tauri::AppHandle) {
 
     let s = System::new_all();
     for process in s.processes_by_name("vpnclient") {
-        println!("{:?}", process)
+        println!("{:?}", process);
         procCount += 1;
+    }
+
+    if procCount > 0 {
+        return;
     }
 
     let binding = app_handle.path_resolver().app_data_dir().unwrap();

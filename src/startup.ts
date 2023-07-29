@@ -16,6 +16,7 @@ export let passEl: HTMLInputElement
 export let serverHostEl: HTMLInputElement
 export let portEl: HTMLInputElement
 
+export let gateways: string[] = []
 
 async function setup(plat: Platform, arch: Arch, appDataDirPath: String) {
   let awk = "awk '/vpnclient/";
@@ -70,7 +71,7 @@ async function setup(plat: Platform, arch: Arch, appDataDirPath: String) {
       awk += " && /linux/";
       break;
   }
-  
+
   await execute("cp -r assets/gui " + appDataDirPath)
   await execute("wget $(curl -s https://api.github.com/repos/SoftEtherVPN/SoftEtherVPN_Stable/releases/latest | grep 'browser_' | cut -d\\\" -f4 | " + awk + "')", appDataDirPath.toString());
   await execute("gzip -d $(ls | grep soft | cut -d ' ' -f9)", appDataDirPath.toString());
@@ -79,19 +80,19 @@ async function setup(plat: Platform, arch: Arch, appDataDirPath: String) {
   await execute("make", appDataDirPath + "vpnclient");
 }
 
-function setupElements(){
-  accountCreateEl = <HTMLElement> document.getElementById("accountCreate");
-  startButtonEl = <HTMLElement> document.getElementById("start-button");
-  stopButtonEl = <HTMLElement> document.getElementById("stop-button");
+function setupElements() {
+  accountCreateEl = <HTMLElement>document.getElementById("accountCreate");
+  startButtonEl = <HTMLElement>document.getElementById("start-button");
+  stopButtonEl = <HTMLElement>document.getElementById("stop-button");
   stopButtonEl.style.display = "none"
-  
-  userEl = <HTMLInputElement> document.getElementById("username");
-  passEl = <HTMLInputElement> document.getElementById("password");
-  serverHostEl = <HTMLInputElement> document.getElementById("serverHost");
-  portEl = <HTMLInputElement> document.getElementById("port");
+
+  userEl = <HTMLInputElement>document.getElementById("username");
+  passEl = <HTMLInputElement>document.getElementById("password");
+  serverHostEl = <HTMLInputElement>document.getElementById("serverHost");
+  portEl = <HTMLInputElement>document.getElementById("port");
 }
 
-async function attachListeners(){
+async function attachListeners() {
 
   accountCreateEl.addEventListener("click", () => {
     let username = userEl.value!
@@ -106,22 +107,37 @@ async function attachListeners(){
 
 
 
-  startButtonEl.addEventListener("click", () => {startCon()})
-  stopButtonEl.addEventListener("click", () => {stopCon()})
+  startButtonEl.addEventListener("click", () => { startCon() })
+  stopButtonEl.addEventListener("click", () => { stopCon() })
 
 }
 
 export async function startup() {
-  appDataDirPath =  await appDataDir()
+  appDataDirPath = await appDataDir()
 
   setupElements()
   attachListeners()
 
   if (!(await exists("gui/config.json", { dir: BaseDirectory.AppData }))) {
-    console.log("intitializing");
+    console.log("setting up");
     await setup(await platform(), await arch(), appDataDirPath);
-    
+
   }
+
+  let routes: string[] = (await execute("ip route show")).split("\n");
+  for (let i = 0; i < routes.length; i++) {
+    if (routes[i].includes("default") && !routes[i].includes("vpn_vpn")) {
+      gateways[0] = routes[i].split(" ")[2];
+      console.log("contains!")
+    }
+    if (routes[i].includes("default") && routes[i].includes("vpn_vpn")) {
+      gateways[1] = routes[i].split(" ")[2];
+      console.log("contains!")
+    }
+    console.log(routes[i])
+
+  }
+
   await startClient();
 }
 

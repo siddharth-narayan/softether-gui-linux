@@ -17,7 +17,7 @@ declare root
   string AccountName $AccountName
   uint AdditionalConnectionInterval 1
   uint ConnectionDisconnectSpan 0
-  string DeviceName se
+  string DeviceName $DeviceName
   bool DisableQoS false
   bool HalfConnection false
   bool HideNicInfoWindow false
@@ -26,8 +26,8 @@ declare root
   string HubName $HubName
   uint MaxConnection 1
   bool NoRoutingTracking false
-  bool NoTls1 true
-  bool NoUdpAcceleration false
+  bool NoTls1 false
+  bool NoUdpAcceleration true
   uint NumRetry 4294967295
   uint Port $Port
   uint PortUDP 0
@@ -40,6 +40,6 @@ declare root
   bool RequireMonitorMode false
   uint RetryInterval 15
   bool UseCompress false
-  bool UseEncrypt true
+  bool UseEncrypt false
  }
 }

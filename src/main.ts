@@ -1,5 +1,6 @@
 import { Account } from './account';
 import { appDataDirPath, passEl, portEl, serverHostEl, startButtonEl, startup, stopButtonEl, userEl } from './startup';
+import { execute } from './tools';
 
 export let accounts: Account[] = []
 export let currentAccount: Account

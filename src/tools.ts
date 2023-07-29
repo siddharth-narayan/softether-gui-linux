@@ -25,7 +25,7 @@ export function assert(condition: boolean, message: string) {
     }
   }
 
-export async function execute(string: string, cwd?: string, hideOutput?: boolean): Promise<number | null> {
+export async function execute(string: string, cwd?: string, hideOutput?: boolean): Promise<string> {
     if (hideOutput === undefined){
         hideOutput === false
     }
@@ -44,7 +44,7 @@ export async function execute(string: string, cwd?: string, hideOutput?: boolean
     }
 
 
-    let output = (await command.execute()).code;
+    let output = (await command.execute()).stdout;
     
     console.log(output)
     return output

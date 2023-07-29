@@ -1,6 +1,7 @@
 import { invoke } from "@tauri-apps/api/tauri"
-import { execute, getCurrentDate, readTextFileFromAppData, writeTextFileToAppData } from "./tools"
-import { appDataDirPath } from "./startup"
+import { execute, getCurrentDate, readTextFileFromAppData, writeTerm, writeTextFileToAppData } from "./tools"
+import { appDataDirPath, gateways } from "./startup"
+import { Command } from "@tauri-apps/api/shell"
 
 export class Account {
     accountName!: string
@@ -32,19 +33,32 @@ export class Account {
         text = text
             .replace("$HashedPassword", await invoke("sha", { password: (this.password + this.username.toUpperCase()) }))
             .replace("$Port", this.port)
-            .replace("$Hostname", this.hostname)
+            .replace("$Hostname", this.hostname + "/tcp")
             .replace("$Username", this.username)
             .replace("$AccountName", this.accountName)
-            .replace("$AuthType", "standard")
+            .replace("$AuthType", "1")
+            .replace("$DeviceName", "VPN")
+            .replace("$HubName", "VPN")
 
         writeTextFileToAppData(this.accountFilePath, text.toString())
     }
 
     async conAccount() {
         console.log("connecting account")
-        if (this.isImported)
+        if (this.isImported){
             await execute(
-                appDataDirPath + "vpnclient/vpncmd localhost /CLIENT /CMD AccountConnect " + this.accountName)
+                appDataDirPath + "vpnclient/vpncmd localhost /CLIENT /CMD AccountConnect " + this.accountName);
+
+            //do some finishing work by running the following commands:
+            //sudo dhclient
+            //ip route del default via <old gateway ip>
+            //ip route add <hostname ip> via <old gateway ip>
+            //then disable ipv6 because it makes the vpn not work at all.
+            await execute("pkexec " + appDataDirPath + "gui/setroute.sh")// + gateways[1] + " " + gateways[0] + " " + this.hostname)
+            console.log("pkexec " + appDataDirPath + "gui/setroute.sh " + gateways[0] + " " + this.hostname)
+        }
+            
+            
     }
 
     async disconAccount() {
