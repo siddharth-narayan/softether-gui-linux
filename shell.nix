@@ -1,0 +1,1 @@
+../../nix-shell-dev-envs/softether-gui-linux-shell.nix

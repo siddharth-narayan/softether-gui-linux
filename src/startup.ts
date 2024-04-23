@@ -16,67 +16,67 @@ export let passEl: HTMLInputElement
 export let serverHostEl: HTMLInputElement
 export let portEl: HTMLInputElement
 
-async function setup(plat: Platform, arch: Arch, appDataDirPath: String) {
-  let awk = "awk '/vpnclient/";
+// async function setup(plat: Platform, arch: Arch, appDataDirPath: String) {
+//   let awk = "awk '/vpnclient/";
 
-  switch (arch) {
-    case "aarch64":
-      awk += " && /arm64-64bit/";
-      break;
-    case "arm":
-      awk += " && /arm-32bit/";
-      break;
-    case "mips":
-      awk += " && /mips/";
-      break;
-    case "mips64":
-      awk += " && /mips/";
-      break;
-    case "powerpc":
-      awk += " && /powerpc-32bit/";
-      break;
-    case "powerpc64":
-      awk += " && /powerpc64-64bit/";
-      break;
-    case "sparc64":
-      awk += " && /sparc64-64bit/";
-      break;
-    case "x86":
-      awk += " && /x86-32bit/";
-      break;
-    case "x86_64":
-      awk += " && /x64-64bit/";
-      break;
-    default:
-      awk += " && /x64-64bit/";
-      break;
-  }
+//   switch (arch) {
+//     case "aarch64":
+//       awk += " && /arm64-64bit/";
+//       break;
+//     case "arm":
+//       awk += " && /arm-32bit/";
+//       break;
+//     case "mips":
+//       awk += " && /mips/";
+//       break;
+//     case "mips64":
+//       awk += " && /mips/";
+//       break;
+//     case "powerpc":
+//       awk += " && /powerpc-32bit/";
+//       break;
+//     case "powerpc64":
+//       awk += " && /powerpc64-64bit/";
+//       break;
+//     case "sparc64":
+//       awk += " && /sparc64-64bit/";
+//       break;
+//     case "x86":
+//       awk += " && /x86-32bit/";
+//       break;
+//     case "x86_64":
+//       awk += " && /x64-64bit/";
+//       break;
+//     default:
+//       awk += " && /x64-64bit/";
+//       break;
+//   }
 
-  switch (plat) {
-    case "darwin":
-      awk += " && /macos/";
-      break;
-    case "freebsd":
-      awk += " && /freebsd/";
-      break;
-    case "linux":
-      awk += " && /linux/";
-      break;
-    case "solaris":
-      awk += " && /solaris/";
-      break;
-    default:
-      awk += " && /linux/";
-      break;
-  }
+//   switch (plat) {
+//     case "darwin":
+//       awk += " && /macos/";
+//       break;
+//     case "freebsd":
+//       awk += " && /freebsd/";
+//       break;
+//     case "linux":
+//       awk += " && /linux/";
+//       break;
+//     case "solaris":
+//       awk += " && /solaris/";
+//       break;
+//     default:
+//       awk += " && /linux/";
+//       break;
+//   }
 
-  await execute("cp -r assets/gui " + appDataDirPath)
-  await execute("wget $(curl -s https://api.github.com/repos/SoftEtherVPN/SoftEtherVPN_Stable/releases/latest | grep 'browser_' | cut -d\\\" -f4 | " + awk + "')", appDataDirPath.toString());
-  await execute("gzip -d $(ls | grep soft | cut -d ' ' -f9)", appDataDirPath.toString());
-  await execute("tar -xvf $(ls | grep soft | cut -d ' ' -f9)", appDataDirPath.toString());
-  await execute("rm $(ls | grep soft | cut -d ' ' -f9)", appDataDirPath.toString());
-  await execute("make", appDataDirPath + "vpnclient");
-}
+//   await execute("cp -r assets/gui " + appDataDirPath)
+//   await execute("wget $(curl -s https://api.github.com/repos/SoftEtherVPN/SoftEtherVPN_Stable/releases/latest | grep 'browser_' | cut -d\\\" -f4 | " + awk + "')", appDataDirPath.toString());
+//   await execute("gzip -d $(ls | grep soft | cut -d ' ' -f9)", appDataDirPath.toString());
+//   await execute("tar -xvf $(ls | grep soft | cut -d ' ' -f9)", appDataDirPath.toString());
+//   await execute("rm $(ls | grep soft | cut -d ' ' -f9)", appDataDirPath.toString());
+//   await execute("make", appDataDirPath + "vpnclient");
+// }
 
 function setupElements() {
   accountCreateEl = <HTMLElement>document.getElementById("accountCreate");
@@ -116,21 +116,21 @@ export async function startup() {
   setupElements()
   attachListeners()
 
-  if (!(await exists("gui/config.json", { dir: BaseDirectory.AppData }))) {
-    console.log("setting up");
-    await setup(await platform(), await arch(), appDataDirPath);
+  // if (!(await exists("gui/config.json", { dir: BaseDirectory.AppData }))) {
+  //   console.log("setting up");
+  //   await setup(await platform(), await arch(), appDataDirPath);
 
-  }
+  // }
 
-  await startClient();
+  // await startClient();
 }
 
-async function startClient() {
-  while (!(await exists(appDataDirPath + "vpnclient/vpnclient"))) {
-    await delay(500)
-    console.log("no");
-  }
-  console.log("start client")
+// async function startClient() {
+//   while (!(await exists(appDataDirPath + "vpnclient/vpnclient"))) {
+//     await delay(500)
+//     console.log("no");
+//   }
+//   console.log("start client")
 
-  invoke("startclient", {});
-}
+//   invoke("startclient", {});
+// }

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <link href="/dist/output.css" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SoftEtherVPN GUI Settings</title>
+  <script type="module" src="/src/settings.ts" defer></script>
+</head>
+
+<body class="p-0 m-0 w-full h-full min-h-full min-w-full bg-slate-900 justify-center flex">
+  <div id="sidebar"></div>
+  <div id="main">
+    <div class="self-center"></div>
+    <div id="main-settings">
+      <!-- TODO: add more authtypes -->
+      <input placeholder="Username"     class="inp required string"/>
+      <input placeholder="Password"     class="inp required string" type="password" />
+      <input placeholder="Hostname"     class="inp required string"/>
+      <input placeholder="Port"         class="inp required number"/>
+      <input placeholder="Acouunt Name" class="inp string"/>
+    </div>
+    <div id="advanced-settings">
+      <input placeholder="Additional Connection Interval" default="1"           class="inp number"/>
+      <input placeholder="Connection Disconnect Span"     default="0"           class="inp number"/>
+      <!-- <input placeholder="Device Name" default="" class="inp"/> -->      
+      <input placeholder="Disable QoS"                    default="false"       class="inp boolean"/>
+      <input placeholder="HalfConnection"                 default="false"       class="inp boolean"/>
+      <input placeholder="HideNicInfoWindow"              default="false"       class="inp boolean"/>
+      <input placeholder="HideStatusWindow"               default="false"       class="inp boolean"/>
+      <!-- <input placeholder="Hostname" default="" class="inp"/> -->
+      <!-- <input placeholder="HubName" default="" class="inp"/> -->
+      <input placeholder="MaxConnection"                  default="1"           class="inp number"/>
+      <input placeholder="NoRoutingTracking"              default="false"       class="inp boolean"/>
+      <input placeholder="NoTls1"                         default="false"       class="inp boolean"/>
+      <input placeholder="NoUdpAcceleration"              default="true"        class="inp boolean"/>
+      <input placeholder="NumRetry"                       default="4294967295"  class="inp number"/>
+      <!-- PortUDP disabled for later -->     
+      <input placeholder="ProxyName"                      default=""            class="inp string"/>
+      <input placeholder="ProxyPassword"                  default=""            class="inp string"/>
+      <input placeholder="ProxyPort"                      default=""            class="inp string"/>
+      <input placeholder="ProxyType"                      default=""            class="inp string"/>
+      <input placeholder="ProxyUsername"                  default=""            class="inp string"/>
+      <input placeholder="RequireBridgeRoutingMode"       default="false"       class="inp boolean"/>
+      <input placeholder="RequireMonitorMode"             default="false"       class="inp boolean"/>
+      <input placeholder="RetryInterval"                  default="15"          class="inp number"/>
+      <input placeholder="UseCompress"                    default="false"       class="inp boolean"/>
+      <input placeholder="UseEncrypt"                     default="false"       class="inp boolean"/>
+    </div>
+  </div>
+</body>
+
+</html>
