@@ -1,0 +1,33 @@
+{
+    "ReadOnlySettings": [
+        { "prettyname":"Username",                              "configname":"",        "required":true,        "type":"string",        "default":"John Doe",       "password":false,       "explanation":"idk rLorem ipsum dolor sit amet consiecoiajefaoiwfoiawjfoi aoiajw foiawejf oiawejf oiawej fawoeijf aweoifj awoeifj aweoifjaowiefjawoiefjoiawejfoaiwe fowiaefoaiwejfaweoifjwaeon"},
+        { "prettyname":"Password",                              "configname":"",        "required":true,        "type":"string",        "default":"example123",       "password":true,        "explanation":"idk rLorem ipsum dolor sit amet consiecoiajefaoiwfoiawjfoi aoiajw foiawejf oiawejf oiawej fawoeijf aweoifj awoeifj aweoifjaowiefjawoiefjoiawejfoaiwe fowiaefoaiwejfaweoifjwaeon"},
+        { "prettyname":"Hostname",                              "configname":"",        "required":true,        "type":"string",        "default":"127.0.0.1",      "password":false,       "explanation":"idk rLorem ipsum dolor sit amet consiecoiajefaoiwfoiawjfoi aoiajw foiawejf oiawejf oiawej fawoeijf aweoifj awoeifj aweoifjaowiefjawoiefjoiawejfoaiwe fowiaefoaiwejfaweoifjwaeon"},
+        { "prettyname":"Port",                                  "configname":"",        "required":true,        "type":"number",        "default":443,              "password":false,       "explanation":"idk rLorem ipsum dolor sit amet consiecoiajefaoiwfoiawjfoi aoiajw foiawejf oiawejf oiawej fawoeijf aweoifj awoeifj aweoifjaowiefjawoiefjoiawejfoaiwe fowiaefoaiwejfaweoifjwaeon"},
+        
+        { "prettyname":"Additional Connection Interval",        "configname":"",        "required":false,       "type":"number",        "default":1,                "password":false,       "explanation":"idk rLorem ipsum dolor sit amet consiecoiajefaoiwfoiawjfoi aoiajw foiawejf oiawejf oiawej fawoeijf aweoifj awoeifj aweoifjaowiefjawoiefjoiawejfoaiwe fowiaefoaiwejfaweoifjwaeon"},
+        { "prettyname":"Connection Disconnect Span",            "configname":"",        "required":false,       "type":"number",        "default":0,                "password":false,       "explanation":"idk rn"},
+        { "prettyname":"Disable QoS",                           "configname":"",        "required":false,       "type":"boolean",       "default":false,            "password":false,       "explanation":"idk rn"},
+        { "prettyname":"Half Connection",                       "configname":"",        "required":false,       "type":"boolean",       "default":false,            "password":false,       "explanation":"idk rn"},
+        { "prettyname":"Hide Nic Info Window",                  "configname":"",        "required":false,       "type":"boolean",       "default":false,            "password":false,       "explanation":"idk rn"},
+        { "prettyname":"Hide Status Window",                    "configname":"",        "required":false,       "type":"boolean",       "default":false,            "password":false,       "explanation":"idk rn"},
+        { "prettyname":"Max Connection",                        "configname":"",        "required":false,       "type":"number",        "default":1,                "password":false,       "explanation":"idk rn"},
+        { "prettyname":"No Routing Tracking",                   "configname":"",        "required":false,       "type":"boolean",       "default":false,            "password":false,       "explanation":"idk rn"},
+        { "prettyname":"No Tls1",                               "configname":"",        "required":false,       "type":"boolean",       "default":false,            "password":false,       "explanation":"idk rn"},
+        { "prettyname":"No UDP Acceleration",                   "configname":"",        "required":false,       "type":"boolean",       "default":true,             "password":false,       "explanation":"idk rn"},
+        { "prettyname":"Num Retry",                             "configname":"",        "required":false,       "type":"number",        "default":4294967295,       "password":false,       "explanation":"idk rn"},
+        { "prettyname":"Proxy Name",                            "configname":"",        "required":false,       "type":"string",        "default":"exmample.com",               "password":false,       "explanation":"idk rn"},
+        { "prettyname":"Proxy Password",                        "configname":"",        "required":false,       "type":"string",        "default":"example123",               "password":true,        "explanation":"idk rn"},
+        { "prettyname":"Proxy Port",                            "configname":"",        "required":false,       "type":"number",        "default":443,              "password":false,       "explanation":"idk rn"},
+        { "prettyname":"Proxy Type",                            "configname":"",        "required":false,       "type":"string",        "default":"HTTPS",          "password":false,       "explanation":"idk rn"},
+        { "prettyname":"Proxy Username",                        "configname":"",        "required":false,       "type":"string",        "default":"John Doe",               "password":false,       "explanation":"idk rn"},
+        { "prettyname":"Require Bridge Routing Mode",           "configname":"",        "required":false,       "type":"boolean",       "default":false,            "password":false,       "explanation":"idk rn"},
+        { "prettyname":"Require Monitor Mode",                  "configname":"",        "required":false,       "type":"boolean",       "default":false,            "password":false,       "explanation":"idk rn"},
+        { "prettyname":"Retry Interval",                        "configname":"",        "required":false,       "type":"number",        "default":15,               "password":false,       "explanation":"idk rn"},
+        { "prettyname":"Use Compress",                          "configname":"",        "required":false,       "type":"boolean",       "default":false,            "password":false,       "explanation":"idk rn"},
+        { "prettyname":"Use Encrypt",                           "configname":"",        "required":false,       "type":"boolean",       "default":false,            "password":false,       "explanation":"idk rn"}
+    ],
+    "Accounts": [
+
+    ]
+}

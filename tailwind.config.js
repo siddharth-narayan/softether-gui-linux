@@ -1,19 +1,33 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./src/**/*.{html,js}", "./*.{html,js}"],
+  content: ["./src/**/*.{html,js,svelte,ts}", "./*.{html,js,svelte,ts}"],
   darkMode: "class",
   theme: {
+    screens: {
+      sm: "480px",
+      md: "768px",
+      lg: "976px",
+      xl: "1440px",
+    },
+    colors: {
+      'text': '#ebebeb',
+      'background': '#1c1c1c',
+      'primary': '#232323',
+      'secondary': '#424242',
+      'accent': '#92b8e4',
+    },
+    fontFamily: {
+      sans: ["Graphik", "sans-serif"],
+      serif: ["Merriweather", "serif"],
+    },
     extend: {
-      width: {
+      spacing: {
         128: "32rem",
-        192: "48rem"
-
+        144: "36rem",
       },
-
-      height: {
-        256: "64rem",
-        192: "48rem"
-      }
+      borderRadius: {
+        "4xl": "2rem",
+      },
     },
   },
   plugins: [],
