@@ -14,7 +14,9 @@ export default {
       'background': '#1c1c1c',
       'primary': '#232323',
       'secondary': '#424242',
+      'tertiary': "#545454",
       'accent': '#92b8e4',
+      'error': '#b30000'
     },
     fontFamily: {
       sans: ["Graphik", "sans-serif"],

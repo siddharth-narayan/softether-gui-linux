@@ -1,0 +1,33 @@
+{
+    "ReadOnlySettings": [
+        { "prettyname":"Username",                              "configname":"Username",        "required":true,        "type":"string",        "default":"John Doe",       "explanation":"idk rLorem ipsum dolor sit amet consiecoiajefaoiwfoiawjfoi aoiajw foiawejf oiawejf oiawej fawoeijf aweoifj awoeifj aweoifjaowiefjawoiefjoiawejfoaiwe fowiaefoaiwejfaweoifjwaeon"},
+        { "prettyname":"Password",                              "configname":"HashedPassword",        "required":true,        "type":"password",      "default":"example123",     "explanation":"idk rLorem ipsum dolor sit amet consiecoiajefaoiwfoiawjfoi aoiajw foiawejf oiawejf oiawej fawoeijf aweoifj awoeifj aweoifjaowiefjawoiefjoiawejfoaiwe fowiaefoaiwejfaweoifjwaeon"},
+        { "prettyname":"Hostname",                              "configname":"Hostname",        "required":true,        "type":"string",        "default":"127.0.0.1",      "explanation":"idk rLorem ipsum dolor sit amet consiecoiajefaoiwfoiawjfoi aoiajw foiawejf oiawejf oiawej fawoeijf aweoifj awoeifj aweoifjaowiefjawoiefjoiawejfoaiwe fowiaefoaiwejfaweoifjwaeon"},
+        { "prettyname":"Port",                                  "configname":"Port",        "required":true,        "type":"number",        "default":443,              "explanation":"idk rLorem ipsum dolor sit amet consiecoiajefaoiwfoiawjfoi aoiajw foiawejf oiawejf oiawej fawoeijf aweoifj awoeifj aweoifjaowiefjawoiefjoiawejfoaiwe fowiaefoaiwejfaweoifjwaeon"},
+        
+        { "prettyname":"Additional Connection Interval",        "configname":"AdditionalConnectionInterval",        "required":false,       "type":"number",        "default":1,                "explanation":"idk rLorem ipsum dolor sit amet consiecoiajefaoiwfoiawjfoi aoiajw foiawejf oiawejf oiawej fawoeijf aweoifj awoeifj aweoifjaowiefjawoiefjoiawejfoaiwe fowiaefoaiwejfaweoifjwaeon"},
+        { "prettyname":"Connection Disconnect Span",            "configname":"ConnectionDisconnectSpan",        "required":false,       "type":"number",        "default":0,                "explanation":"idk rn"},
+        { "prettyname":"Disable QoS",                           "configname":"DisableQoS",        "required":false,       "type":"boolean",       "default":false,            "explanation":"idk rn"},
+        { "prettyname":"Half Connection",                       "configname":"HalfConnection",        "required":false,       "type":"boolean",       "default":false,            "explanation":"idk rn"},
+        { "prettyname":"Hide Nic Info Window",                  "configname":"HideNicInfoWindow",        "required":false,       "type":"boolean",       "default":false,            "explanation":"idk rn"},
+        { "prettyname":"Hide Status Window",                    "configname":"HideStatusWindow",        "required":false,       "type":"boolean",       "default":false,            "explanation":"idk rn"},
+        { "prettyname":"Max Connection",                        "configname":"MaxConnection",        "required":false,       "type":"number",        "default":1,                "explanation":"idk rn"},
+        { "prettyname":"No Routing Tracking",                   "configname":"NoRoutingTracking",        "required":false,       "type":"boolean",       "default":false,            "explanation":"idk rn"},
+        { "prettyname":"No TLS1",                               "configname":"NoTls1",        "required":false,       "type":"boolean",       "default":false,            "explanation":"idk rn"},
+        { "prettyname":"No UDP Acceleration",                   "configname":"NoUdpAcceleration",        "required":false,       "type":"boolean",       "default":true,             "explanation":"idk rn"},
+        { "prettyname":"Num Retry",                             "configname":"NumRetry",        "required":false,       "type":"number",        "default":4294967295,       "explanation":"idk rn"},
+        { "prettyname":"Proxy Name",                            "configname":"ProxyName",        "required":false,       "type":"string",        "default":"",               "explanation":"idk rn"},
+        { "prettyname":"Proxy Password",                        "configname":"ProxyPassword",        "required":false,       "type":"password",      "default":"",               "explanation":"idk rn"},
+        { "prettyname":"Proxy Port",                            "configname":"ProxyPort",        "required":false,       "type":"number",        "default":0,                "explanation":"idk rn"},
+        { "prettyname":"Proxy Type",                            "configname":"ProxyType",        "required":false,       "type":"string",        "default":"",               "explanation":"idk rn"},
+        { "prettyname":"Proxy Username",                        "configname":"ProxyUsername",        "required":false,       "type":"string",        "default":"",               "explanation":"idk rn"},
+        { "prettyname":"Require Bridge Routing Mode",           "configname":"RequireBridgeRoutingMode",        "required":false,       "type":"boolean",       "default":false,            "explanation":"idk rn"},
+        { "prettyname":"Require Monitor Mode",                  "configname":"RequireMonitorMode",        "required":false,       "type":"boolean",       "default":false,            "explanation":"idk rn"},
+        { "prettyname":"Retry Interval",                        "configname":"RetryInterval",        "required":false,       "type":"number",        "default":15,               "explanation":"idk rn"},
+        { "prettyname":"Use Compress",                          "configname":"UseCompress",        "required":false,       "type":"boolean",       "default":false,            "explanation":"idk rn"},
+        { "prettyname":"Use Encrypt",                           "configname":"UseEncrypt",        "required":false,       "type":"boolean",       "default":false,            "explanation":"idk rn"}
+    ],
+    "Accounts": [
+
+    ]
+}

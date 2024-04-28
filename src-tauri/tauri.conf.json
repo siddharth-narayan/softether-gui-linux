@@ -22,15 +22,20 @@
         "open": true,
         "scope": [
           {
-            "name": "sh",
-            "cmd": "sh",
+            "name": "vpncmd",
+            "cmd": "vpncmd",
             "args": true
-          } 
+          },
+          {
+            "name":"vpnclient",
+            "cmd": "vpnclient",
+            "args": true
+          }
         ]
       },
       "fs": {
         "all": true,
-        "scope": ["$APPDATA/*/**", "$APPCONFIG/*/**", "$APP/*/**"]
+        "scope": ["$APPDATA/*/**", "$APPDATA/*", "$APPCONFIG/*/**", "$APP/*/**"]
       },
       "path":{
         "all": true

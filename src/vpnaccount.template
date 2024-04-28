@@ -1,0 +1,45 @@
+declare root
+{
+ bool CheckServerCert false
+ uint64 CreateDateTime 0
+ uint64 LastConnectDateTime 0
+ bool StartupAccount false
+ uint64 UpdateDateTime 0
+
+ declare ClientAuth
+ {
+  uint AuthType $AuthType
+  byte HashedPassword $HashedPassword
+  string Username $Username
+ }
+ declare ClientOption
+ {
+  string AccountName $AccountName
+  uint AdditionalConnectionInterval $AdditionalConnectionInterval
+  uint ConnectionDisconnectSpan $ConnectionDisconnectSpan
+  string DeviceName $DeviceName
+  bool DisableQoS $DisableQoS
+  bool HalfConnection $HalfConnection
+  bool HideNicInfoWindow $HideNicInfoWindow
+  bool HideStatusWindow $HideStatusWindow
+  string Hostname $Hostname
+  string HubName $HubName
+  uint MaxConnection $MaxConnection
+  bool NoRoutingTracking $NoRoutingTracking
+  bool NoTls1 $NoTls1
+  bool NoUdpAcceleration $NoUdpAcceleration
+  uint NumRetry $NumRetry
+  uint Port $Port
+  uint PortUDP $PortUDP
+  string ProxyName $ProxyName
+  byte ProxyPassword $ProxyPassword
+  uint ProxyPort $ProxyPort
+  uint ProxyType $ProxyType
+  string ProxyUsername $ProxyUsername
+  bool RequireBridgeRoutingMode $RequireBridgeRoutingMode
+  bool RequireMonitorMode $RequireMonitorMode
+  uint RetryInterval $RetryInterval
+  bool UseCompress $UseCompress
+  bool UseEncrypt $UseEncrypt
+ }
+}
