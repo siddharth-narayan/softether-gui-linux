@@ -8,7 +8,7 @@ let
     gdk-pixbuf
     glib
     dbus
-    (callPackage ../softethervpn/package.nix {})
+    (callPackage ../SoftEtherVPN/package.nix {})
     librsvg
     libayatana-appindicator
   ];
@@ -16,7 +16,7 @@ let
   packages = with pkgs; [
     pkg-config
     dbus
-    (callPackage ../softethervpn/package.nix {})
+    (callPackage ../SoftEtherVPN/package.nix {})
     glib
     gtk3
     libsoup
