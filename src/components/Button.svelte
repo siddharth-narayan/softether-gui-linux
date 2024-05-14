@@ -1,6 +1,18 @@
 <script lang="ts">
-    export let text;
-    export let onclick;
+    export let text: string;
+    export let onclick: () => void;
+    export let show: boolean;
 </script>
 
-<button class="p-4 rounded-md transition duration-150 bg-secondary hover:bg-tertiary" on:click={onclick}>{text}</button>
+<style>
+    .button {
+        background-color: var(--color);
+    }
+    .button:hover {
+        filter: brightness(125%);
+    }
+</style>
+
+{#if show}
+    <button class="button p-4 rounded-md transition duration-150" on:click={onclick}>{text}</button>
+{/if}

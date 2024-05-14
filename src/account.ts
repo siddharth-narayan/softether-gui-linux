@@ -2,41 +2,56 @@ import { invoke } from "@tauri-apps/api"
 import { readTextFile, writeTextFile } from "@tauri-apps/api/fs"
 import { appDataDir } from "@tauri-apps/api/path"
 
-export function writeAccountsJsonFromArray(array: ([settingName: string, value: string | number | boolean ])[]){
-    let accountJson = jsonFromSettingsArray(array)
-    writeAccountJsonToConfig(accountJson)
+export type AccountType = {
+    [key: string]: any
 }
 
-export async function readConfigJson(): Promise<{}> {
+export type SettingType = {
+    [key:string]: any
+}
+
+export type Config = {
+    ["Accounts"]: AccountType[]
+    ["ReadOnlySettings"]: SettingType[]
+}
+
+export async function readConfigJson(): Promise<Config> {
     let appDataDirPath = await appDataDir()
-    console.debug(appDataDirPath + "config.json")
     let jsonText = await readTextFile(appDataDirPath + "config.json")
     let json = JSON.parse(jsonText.toString())
     return json
 }
 
-export async function readAccountsJson(): Promise<{}> {
-    let appDataDirPath = await appDataDir()
-    console.debug(appDataDirPath + "config.json")
-    let jsonText = await readTextFile(appDataDirPath + "config.json")
-    let json = JSON.parse(jsonText.toString())
-    return json["Acccounts"]
+export async function writeAccountFromArray(array: ([settingName: string, value: string | number | boolean ])[]){
+    let accountJson = jsonFromArray(array)
+    await writeJsonToConfig(accountJson, "Accounts")
+    return true;
 }
 
-function createFileFromTemplate(accountJson: {}){
-    appDataDir().then((appDataDirPath)=>{
-        readConfigJson
-    })
+export async function searchAcccount(accountName: string) {
+    let config = await readConfigJson()
+    let accountsJson: AccountType[] = config["Accounts"];
+        
+    // Loop through all accounts in "Accounts": []
+    // returns if the account names match
+    for (let i = 0; i < accountsJson.length; i++) {
+        console.log(accountsJson[i]["AccountName"]);
+        if (accountsJson[i]["AccountName"] === accountName) {
+            return accountsJson[i]
+        }
+    }
+    return new Error("No account found with that name")
 }
+
 
 // This function depends on array indices 0 1 and 2 being Username Password and Hostname
-function jsonFromSettingsArray(array: ([settingName: string, value: string | number | boolean ])[]) {
-    let accountJson = {}
+function jsonFromArray(array: ([settingName: string, value: string | number | boolean ])[]) {
+    let accountJson: AccountType = {};
     for (let i = 0; i < array.length; i++){
         if(array[i][0] === "HashedPassword"){
             invoke("sha", { password: array[1][1] + array[0][1].toString().toUpperCase()}).then((hashvalue)=>{
                 console.debug(hashvalue);
-                accountJson[array[i][0]] = hashvalue;
+                accountJson["HashedPassword"] = hashvalue;
             })
         } else {
             accountJson[array[i][0]] = array[i][1];
@@ -45,20 +60,15 @@ function jsonFromSettingsArray(array: ([settingName: string, value: string | num
     }
     
     accountJson["AccountName"] = array[0][1].toString().replace(" ", "_") + array[2][1]
-        
-    accountJson["AuthType"] = "password"
-
-    // TODO: (way later lol) make it so you can use any vpn hub
-    accountJson["HubName"] = "VPN"
     return accountJson
 }
 
-async function writeAccountJsonToConfig(accountJson: {}){
+async function writeJsonToConfig(accountJson: {}, path: string){
     let appDataDirPath = await appDataDir()
     console.debug(appDataDirPath + "config.json")
     let jsonText = await readTextFile(appDataDirPath + "config.json")
     let json = JSON.parse(jsonText.toString())
-    json.Accounts.push(accountJson)
+    json[path].push(accountJson)
     
     writeTextFile(appDataDirPath + "config.json", JSON.stringify(json))
 }

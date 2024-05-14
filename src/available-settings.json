@@ -25,7 +25,7 @@
         { "prettyname":"Require Monitor Mode",                  "configname":"RequireMonitorMode",        "required":false,       "type":"boolean",       "default":false,            "explanation":"idk rn"},
         { "prettyname":"Retry Interval",                        "configname":"RetryInterval",        "required":false,       "type":"number",        "default":15,               "explanation":"idk rn"},
         { "prettyname":"Use Compress",                          "configname":"UseCompress",        "required":false,       "type":"boolean",       "default":false,            "explanation":"idk rn"},
-        { "prettyname":"Use Encrypt",                           "configname":"UseEncrypt",        "required":false,       "type":"boolean",       "default":false,            "explanation":"idk rn"}
+        { "prettyname":"Use Encrypt",                           "configname":"UseEncrypt",        "required":false,       "type":"boolean",       "default":true,            "explanation":"idk rn"}
     ],
     "Accounts": [
 

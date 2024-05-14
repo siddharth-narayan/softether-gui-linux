@@ -4,6 +4,7 @@
 	import AccountsPage from "./components/AccountsPage.svelte";
 	import Sidebar from "./components/Sidebar.svelte";
 	
+	let rerender = false;
 	// import "./styles.css"
 </script>
 
@@ -12,9 +13,10 @@
 	<!-- <SettingsPage></SettingsPage> -->
 	<!-- <AccountCreatePage></AccountCreatePage> -->
 	<div class="flex flex-col gap-8">
-		<AccountCreatePage></AccountCreatePage>
-		<AccountsPage></AccountsPage>
-		<!-- <SettingsPage></SettingsPage> -->
+		<AccountCreatePage bind:rerender={rerender}></AccountCreatePage>
+		{#key rerender}
+			<AccountsPage></AccountsPage>
+		{/key}
 	</div>
 	
 </main>
