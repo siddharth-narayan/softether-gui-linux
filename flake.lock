@@ -12,9 +12,37 @@
         "type": "indirect"
       }
     },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 0,
+        "narHash": "sha256-rL5LSYd85kplL5othxK5lmAtjyMOBg390sGBTb3LRMM=",
+        "path": "/nix/store/7ay2dd0w41iqvrnkx19v4vf4f5kkxvc2-source",
+        "type": "path"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "type": "indirect"
+      }
+    },
     "root": {
       "inputs": {
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "softether": "softether"
+      }
+    },
+    "softether": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_2"
+      },
+      "locked": {
+        "lastModified": 1716093644,
+        "narHash": "sha256-gM8QeZhTPLgfyAs4YAiYmFXkkhGs1YaZA48feVQL7Ck=",
+        "path": "/home/siddharth/projects/github/SoftEtherVPN",
+        "type": "path"
+      },
+      "original": {
+        "path": "/home/siddharth/projects/github/SoftEtherVPN",
+        "type": "path"
       }
     }
   },

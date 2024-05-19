@@ -22,13 +22,7 @@ export async function readConfigJson(): Promise<Config> {
     return json
 }
 
-export async function writeAccountFromArray(array: ([settingName: string, value: string | number | boolean ])[]){
-    let accountJson = jsonFromArray(array)
-    await writeJsonToConfig(accountJson, "Accounts")
-    return true;
-}
-
-export async function searchAcccount(accountName: string) {
+export async function searchAcccount(accountName: string): Promise<[AccountType, number] | Error> {
     let config = await readConfigJson()
     let accountsJson: AccountType[] = config["Accounts"];
         
@@ -37,12 +31,22 @@ export async function searchAcccount(accountName: string) {
     for (let i = 0; i < accountsJson.length; i++) {
         console.log(accountsJson[i]["AccountName"]);
         if (accountsJson[i]["AccountName"] === accountName) {
-            return accountsJson[i]
+            return [accountsJson[i], i]
         }
     }
     return new Error("No account found with that name")
 }
 
+// Used by AccountCreatePage
+export async function writeAccountToConfig(array: ([settingName: string, value: string | number | boolean ])[]){
+    let accountJson = jsonFromArray(array)
+    await writeJsonToConfig(accountJson, "Accounts")
+    return true;
+}
+
+export async function deleteAccountFromConfig(accountName: string) {
+
+}
 
 // This function depends on array indices 0 1 and 2 being Username Password and Hostname
 function jsonFromArray(array: ([settingName: string, value: string | number | boolean ])[]) {

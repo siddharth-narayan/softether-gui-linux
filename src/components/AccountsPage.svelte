@@ -8,7 +8,7 @@
 
 <div class="flex flex-col bg-primary p-8 gap-4 text-text font-bold w-full">
     <h1 class="self-center text-accent text-4xl p-8">Accounts</h1>
-    <h1>Please don't connect two accounts at the same time (it will break everything)</h1>
+    <h1 class="self-center">Please don't connect two accounts at the same time (it will break everything)</h1>
     {#await configPromise}
         <p>Loading ...</p>
     {:then config} 

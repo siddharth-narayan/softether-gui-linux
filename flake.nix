@@ -1,5 +1,12 @@
 {
-  outputs = { self, nixpkgs }:
+  inputs = {
+    nixpkgs.url = "nixpkgs";
+
+    softether.url = "path:/home/siddharth/projects/github/SoftEtherVPN";
+    softether.inputs.nixpkgs.follows = "nixpkgs";
+  };
+
+  outputs = { nixpkgs, softether, self }:
     let
       pkgs = import nixpkgs { system = "x86_64-linux"; };
       pa = with pkgs; [ 
@@ -18,7 +25,7 @@
         cargo
         nodejs_21
         tailwindcss
-        (pkgs.callPackage /home/siddharth/projects/github/SoftEtherVPN/flake.nix {})
+        softether.packages.x86_64-linux.default
       ];
 
       libraries = with pkgs; [ 
@@ -32,7 +39,6 @@
         librsvg
         libayatana-appindicator
       ];
-
     in
     {
       devShells.x86_64-linux.default = pkgs.mkShell {

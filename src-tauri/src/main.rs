@@ -33,15 +33,8 @@ fn startclient(app_handle: tauri::AppHandle) {
         return;
     }
 
-    let binding = app_handle.path_resolver().app_data_dir().unwrap();
-    let app_data_path = binding.to_str().unwrap();
-
-    println!("{}",app_data_path.to_owned() + "/vpnclient/vpnclient");
-
-    let mut binding = Command::new("pkexec");
-    let binding1 = binding.arg(app_data_path.to_owned() + "/vpnclient/vpnclient").arg("start").current_dir(app_data_path.to_string() + "/vpnclient/");
-    let command = binding1.current_dir(app_data_path);
-
+    let mut tmp = Command::new("pkexec");
+    let command = tmp.arg("vpnclient").arg("start");
     
     println!("{}", String::from_utf8(command.spawn().unwrap().wait_with_output().unwrap().stdout).unwrap());
 }

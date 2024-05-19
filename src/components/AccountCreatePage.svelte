@@ -2,16 +2,16 @@
     // import settings from '../available-settings.json';
     import Setting from './Setting.svelte';
     import Button from './Button.svelte';
-    import { readConfigJson, writeAccountFromArray } from '../account';
+    import { readConfigJson, writeAccountToConfig } from '../account';
 
     export let rerender: boolean = false;
 
     let configPromise = readConfigJson()
     let array: ([settingName: string, value: string | number | boolean ])[] = []
 
+    // Initialize settings array to default values
     configPromise.then((config) => {
         let availableSettings = config["ReadOnlySettings"]
-        // Initialize settings array to default values
         for (let index = 0; index < availableSettings.length; index++){
             array.push([availableSettings[index].configname, availableSettings[index].default])
         }
@@ -19,8 +19,7 @@
 
     // To prevent account json being written every time an input is typed into
     function accountJsonCallback(){
-        (writeAccountFromArray(array)).then(()=>{
-            console.log("TOGGLe")
+        (writeAccountToConfig(array)).then(()=>{
             rerender = rerender == false ? true : false
         })
     }

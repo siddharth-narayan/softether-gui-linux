@@ -560,10 +560,6 @@ video {
   margin-top: 2rem;
 }
 
-.inline {
-  display: inline;
-}
-
 .flex {
   display: flex;
 }
@@ -622,6 +618,10 @@ video {
 
 .justify-center {
   justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
 }
 
 .gap-4 {

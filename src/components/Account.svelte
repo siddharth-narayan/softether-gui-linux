@@ -1,8 +1,8 @@
 <script lang="ts">
     import { appDataDir } from "@tauri-apps/api/path";
-    import { readConfigJson, searchAcccount } from "../account";
+    import { readConfigJson, searchAcccount, type AccountType, deleteAccountFromConfig } from "../account";
     import Button from "./Button.svelte";
-    import { readTextFile, writeTextFile } from "@tauri-apps/api/fs";
+    import { readTextFile, removeFile, writeTextFile } from "@tauri-apps/api/fs";
     import { Command } from "@tauri-apps/api/shell";
 
     export let account: AccountType;
@@ -11,40 +11,26 @@
     let connected = false;
     let show = true
     
+    // Make sure no account is connected
     disconnect()
 
-    // Called when the "Connect Account" button is clicked.
-    // Calls createFileFromTemplate() to create the .vpn file
-    // Then calls connect() to connect that .vpn file
-    function connectAccount() {
+    // Connects vpnclient to the "temp" file which MUST exist
+    export async function connect() {
+        // Create "temp" file
         let accountName =
             account.Username.toString().replaceAll(" ", "_") + account.Hostname;
 
-        searchAcccount(accountName).then((account) => {
+        let accountJson = await searchAcccount(accountName)
+        console.log(accountJson)
+        await createTempFromJson(accountJson[0])
 
-        })
-        readConfigJson().then((config: Config) => {
-            let accountsJson: AccountType[] = config["Accounts"];
-            console.log(accountsJson);
-            
-            // Loop through all accounts in "Accounts": []
-            // Connects if the AccountNames match
-            for (let i = 0; i < accountsJson.length; i++) {
-                console.log(accountsJson[i]["AccountName"]);
-                if (accountsJson[i]["AccountName"] === accountName) {
-                    createFileFromTemplate(accountsJson[i]).then(() => {
-                        connect();
-                    });
-                }
-            }
-        });
-    }
+        // Connect
 
-    async function connect() {
         let appDataDirPath = await appDataDir();
 
         // "\\" is there because softether will treat "/" as an argument
-        // as if it was on Windows, so it's necessary to escape the leading "/"
+        // as if it was on Windows, so it's necessary to escape the leading "/" in the path
+        // The final command will look like this: "vpncmd localhost /CLIENT /CMD AccountImport \/<path>"
         let filePath = "\\" + appDataDirPath + "accounts/temp";
  
         // Import account
@@ -74,9 +60,10 @@
         connected = true;
     }
 
-    async function disconnect() {
+    // Disconnects vpnclient from the "temp" account and file
+    export async function disconnect() {
  
-        // Import account
+        // Disconnect account
         let command = new Command("vpncmd", [
             "localhost",
             "/CLIENT",
@@ -86,9 +73,8 @@
         ]);
 
         let output = (await command.execute()).stdout
-        // console.log(output)
 
-        // Connect account
+        // Delete account from vpnclient
         command = new Command("vpncmd", [
             "localhost",
             "/CLIENT",
@@ -98,16 +84,23 @@
         ]);
         
         output = (await command.execute()).stdout
-        // console.log(output)
 
         connected = false
+
+        // Delete temp file (if it exists)
+        appDataDir().then((appDataDirPath) => {
+            let filePath = appDataDirPath + "accounts/temp";
+            removeFile(filePath).catch(()=>{console.log("temp was already deleted")})
+        })
     }
 
     async function deleteAccount() {
-        //Delete it
+        let accountName =
+            account.Username.toString().replaceAll(" ", "_") + account.Hostname;
+        deleteAccountFromConfig(accountName)
     }
 
-    async function createFileFromTemplate(account: AccountType) {
+    async function createTempFromJson(account: AccountType) {
         let availableSettings = (await configPromise)["ReadOnlySettings"]
         let appDataDirPath = await appDataDir();
         let template = await readTextFile(
@@ -136,7 +129,7 @@
 </script>
 
 {#if show}
-    <div class="flex p-8 gap-8 items-center justify-center w-full">
+    <div class="flex p-8 items-center justify-between w-full">
         <b class="w-32 text-text">{account.Username}</b>
         <div>
             <p>Username: {account.Username}</p>
@@ -144,8 +137,8 @@
             <p>Port: {account.Port}</p>
         </div>
         <div class="flex flex-col gap-4">
-            <Button --color="green" onclick={connectAccount} text={"Connect Account"} show={!connected}/>
-            <Button --color="red" onclick={disconnect} text={"Disconnect Account"} bind:show={connected}/>
+            <Button --color="green" onclick={connect} text={"Connect Account"} show={!connected}/>
+            <Button --color="red" onclick={disconnect} text={"Disconnect Account"} show={connected}/>
             <Button --color="red" onclick={deleteAccount} text={"Delete Account"} show={true}/>
         </div>
     </div>
