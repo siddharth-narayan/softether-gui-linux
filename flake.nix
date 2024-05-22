@@ -2,7 +2,7 @@
   inputs = {
     nixpkgs.url = "nixpkgs";
 
-    softether.url = "path:/home/siddharth/projects/github/SoftEtherVPN";
+    softether.url = "path:/home/siddharth/projects/github/SoftEtherVPN-fork";
     softether.inputs.nixpkgs.follows = "nixpkgs";
   };
 

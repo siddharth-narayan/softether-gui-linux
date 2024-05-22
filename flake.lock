@@ -24,6 +24,24 @@
         "type": "indirect"
       }
     },
+    "openssl": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_2"
+      },
+      "locked": {
+        "lastModified": 1716387753,
+        "narHash": "sha256-Y2FO0gLzuEWLvpPFtuHh213PPgry0s3INsJ+uceU4tU=",
+        "owner": "siddharth-narayan",
+        "repo": "openssl-with-providers",
+        "rev": "781623900999018ea679047330e9989fc23afa24",
+        "type": "github"
+      },
+      "original": {
+        "owner": "siddharth-narayan",
+        "repo": "openssl-with-providers",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "nixpkgs": "nixpkgs",
@@ -32,16 +50,19 @@
     },
     "softether": {
       "inputs": {
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "openssl": "openssl"
       },
       "locked": {
-        "lastModified": 1716093644,
-        "narHash": "sha256-gM8QeZhTPLgfyAs4YAiYmFXkkhGs1YaZA48feVQL7Ck=",
-        "path": "/home/siddharth/projects/github/SoftEtherVPN",
+        "lastModified": 1716394555,
+        "narHash": "sha256-KcCVqwEGzX84Jg90o/7btKhlj19skSArJmM3RpGhU0w=",
+        "path": "/home/siddharth/projects/github/SoftEtherVPN-fork",
         "type": "path"
       },
       "original": {
-        "path": "/home/siddharth/projects/github/SoftEtherVPN",
+        "path": "/home/siddharth/projects/github/SoftEtherVPN-fork",
         "type": "path"
       }
     }
