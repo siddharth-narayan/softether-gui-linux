@@ -4,7 +4,8 @@
 	import AccountsPage from "./components/AccountsPage.svelte";
 	import Sidebar from "./components/Sidebar.svelte";
 	
-	let rerender = false;
+	export let rerender = false;
+
 </script>
 
 <main class="bg-background flex gap-4 p-4">
