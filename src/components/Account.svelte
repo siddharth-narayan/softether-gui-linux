@@ -15,7 +15,6 @@
     import { Command } from "@tauri-apps/api/shell";
 
     export let account: AccountType;
-    export let rerender
 
     let availableSettingsPromise = readConfigJson("ReadOnlySettings");
     let connected = false;
@@ -91,8 +90,6 @@
             "AccountDisconnect",
             "temp",
         ]);
-
-        let output = (await command.execute()).stdout;
 
         // Delete account from vpnclient
         command = new Command("vpncmd", [

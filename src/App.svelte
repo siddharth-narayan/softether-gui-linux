@@ -3,20 +3,22 @@
 	import SettingsPage from "./components/SettingsPage.svelte";
 	import AccountsPage from "./components/AccountsPage.svelte";
 	import Sidebar from "./components/Sidebar.svelte";
-	
-	export let rerender = false;
 
+	let pageIndex = 0
 </script>
 
-<main class="bg-background flex gap-4 p-4">
-	<Sidebar></Sidebar>
-	<!-- <SettingsPage></SettingsPage> -->
-	<!-- <AccountCreatePage></AccountCreatePage> -->
-	<div class="flex flex-col gap-4">
-		<AccountCreatePage bind:rerender={rerender}></AccountCreatePage>
-		{#key rerender}
+<main class="bg-background flex gap-4 p-4 h-full">
+	<Sidebar bind:pageIndex={pageIndex}></Sidebar>
+	{#key pageIndex}
+		{#if pageIndex === 0}
+			<AccountCreatePage></AccountCreatePage>
+		{/if}
+		{#if pageIndex === 1}
 			<AccountsPage></AccountsPage>
-		{/key}
-	</div>
-	
+		{/if}
+		{#if pageIndex === 1}
+			<!-- <SettingsPage></SettingsPage> -->
+		{/if}
+		
+	{/key}
 </main>

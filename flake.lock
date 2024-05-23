@@ -3,8 +3,8 @@
     "nixpkgs": {
       "locked": {
         "lastModified": 0,
-        "narHash": "sha256-rL5LSYd85kplL5othxK5lmAtjyMOBg390sGBTb3LRMM=",
-        "path": "/nix/store/7ay2dd0w41iqvrnkx19v4vf4f5kkxvc2-source",
+        "narHash": "sha256-8BO3B7e3BiyIDsaKA0tY8O88rClYRTjvAp66y+VBUeU=",
+        "path": "/nix/store/qzjidyx3fip413vg7by6ibl22lwizc68-source",
         "type": "path"
       },
       "original": {
@@ -56,7 +56,7 @@
         "openssl": "openssl"
       },
       "locked": {
-        "lastModified": 1716394555,
+        "lastModified": 1716491604,
         "narHash": "sha256-KcCVqwEGzX84Jg90o/7btKhlj19skSArJmM3RpGhU0w=",
         "path": "/home/siddharth/projects/github/SoftEtherVPN-fork",
         "type": "path"

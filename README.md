@@ -6,3 +6,5 @@ I make 0 guarantees that this program works correctly. I'm just a person who dec
 
 git clone this repo, and then install the tauri dependencies.
 then run ```npm run tauri build```
+
+Icons were found at [iconfinder](https://www.iconfinder.com) (very helpful!)

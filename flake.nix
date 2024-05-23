@@ -23,7 +23,7 @@
         rustc
         rustup
         cargo
-        nodejs_21
+        nodejs_22
         tailwindcss
         softether.packages.x86_64-linux.default
       ];

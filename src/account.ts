@@ -18,7 +18,7 @@ export type Config = {
 export async function searchAccount(
     accountName: string
 ): Promise<[AccountType, number]> {
-    let accountsJson: AccountType[] = await readConfigJson("Accounts");
+    let accountsJson: SettingType = await readConfigJson("Accounts");
 
     // Loop through all accounts in "Accounts": []
     // returns if the account names match
